@@ -44,10 +44,12 @@ function getNewNotes() {
       //console.log(data);
       if(data['status'] == 'success') {
         $('.pro_no').html(data['total_items'])
+        
       }
       else if(data['status'] == 'error') {
         $('.dept_no').html('0')
       }
+      drawViewChart(data)
     })
     .catch(err => {console.log(err)})
   }
@@ -64,6 +66,7 @@ function getNewNotes() {
       else if(data['status'] == 'error') {
         $('.mess_no').html('0')
       }
+      drawPendChart(data['pending_messages'], data['total_items'])
     })
     .catch(err => {console.log(err)})
   }
@@ -71,4 +74,3 @@ function getNewNotes() {
   getPendMess()
   getNewNotes()
   //getTotalUsers()
-

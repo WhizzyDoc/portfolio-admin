@@ -4,301 +4,149 @@ window.Apex = {
       enabled: false
     }
   };
-  
-  var spark1 = {
-    chart: {
-      id: 'sparkline1',
-      type: 'line',
-      height: 140,
-      sparkline: {
-        enabled: true
-      },
-      group: 'sparklines'
-    },
-    series: [{
-      name: 'purple',
-      data: [25, 66, 41, 59, 25, 44, 12, 36, 9, 21]
-    }],
-    stroke: {
-      curve: 'smooth'
-    },
-    markers: {
-      size: 0
-    },
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: 'right'
-      },
-      x: {
-        show: false
+
+  function drawViewChart(d) {
+    //alert('gotten')
+    if(d['status'] == 'success') {
+      if(d.data) {
+        let views = []
+        let titles = []
+        for(var i in d.data) {
+          p = d.data;
+          views.push(p[i].views)
+          titles.push(p[i].title)
+        }
+        var optionsBar = {
+          chart: {
+            type: 'bar',
+            height: 250,
+            width: '100%',
+            stacked: true,
+            foreColor: '#999',
+          },
+          plotOptions: {
+            bar: {
+              dataLabels: {
+                enabled: false
+              },
+              columnWidth: '75%',
+              endingShape: 'rounded'
+            }
+          },
+          colors: ["#00C5A4"],
+          series: [{
+            name: "Views",
+            data: views,
+          }],
+          labels: titles,
+          xaxis: {
+            axisBorder: {
+              show: true
+            },
+            axisTicks: {
+              show: false
+            },
+            crosshairs: {
+              show: false
+            },
+            labels: {
+              show: true,
+              style: {
+                fontSize: '12px'
+              }
+            },
+          },
+          grid: {
+            xaxis: {
+              lines: {
+                show: false
+              },
+            },
+            yaxis: {
+              lines: {
+                show: false
+              },
+            }
+          },
+          yaxis: {
+            axisBorder: {
+              show: false
+            },
+            labels: {
+              show: true
+            },
+          },
+          legend: {
+            floating: true,
+            position: 'top',
+            horizontalAlign: 'right',
+            offsetY: -36
+          },
+          title: {
+            text: 'Projects Views',
+            align: 'left',
+          },
+          subtitle: {
+            text: 'Views'
+          },
+          tooltip: {
+            shared: true,
+            intersect: false
+          }
+        
+        }
+        var chartBar = new ApexCharts(document.querySelector('#bar'), optionsBar);
+        chartBar.render();
       }
-    },
-    title: {
-      text: 'Sales',
-      style: {
-        fontSize: '26px'
+      else {
+        document.querySelector('#bar').html(`<h3 class="w-text-grey">No project yet</h3>`)
       }
-    },
-    colors: ['#734CEA']
-  }
-  
-  var spark2 = {
-    chart: {
-      id: 'sparkline2',
-      type: 'line',
-      height: 140,
-      sparkline: {
-        enabled: true
-      },
-      group: 'sparklines'
-    },
-    series: [{
-      name: 'green',
-      data: [12, 14, 2, 47, 32, 44, 14, 55, 41, 69]
-    }],
-    stroke: {
-      curve: 'smooth'
-    },
-    markers: {
-      size: 0
-    },
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: 'right'
-      },
-      x: {
-        show: false
-      }
-    },
-    title: {
-      text: 'Production',
-      style: {
-        fontSize: '26px'
-      }
-    },
-    colors: ['#34bfa3']
-  }
-  
-  var spark3 = {
-    chart: {
-      id: 'sparkline3',
-      type: 'line',
-      height: 140,
-      sparkline: {
-        enabled: true
-      },
-      group: 'sparklines'
-    },
-    series: [{
-      name: 'red',
-      data: [47, 45, 74, 32, 56, 31, 44, 33, 45, 19]
-    }],
-    stroke: {
-      curve: 'smooth'
-    },
-    markers: {
-      size: 0
-    },
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: 'right'
-      },
-      x: {
-        show: false
-      }
-    },
-    colors: ['#f4516c'],
-    title: {
-      text: 'Expenditure',
-      style: {
-        fontSize: '26px'
-      }
-    },
-    xaxis: {
-      crosshairs: {
-        width: 1
-      },
     }
   }
   
-  var spark4 = {
-    chart: {
-      id: 'sparkline4',
-      type: 'line',
-      height: 140,
-      sparkline: {
-        enabled: true
-      },
-      group: 'sparklines'
-    },
-    series: [{
-      name: 'teal',
-      data: [15, 75, 47, 65, 14, 32, 19, 54, 44, 61]
-    }],
-    stroke: {
-      curve: 'smooth'
-    },
-    markers: {
-      size: 0
-    },
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: 'right'
-      },
-      x: {
-        show: false
-      }
-    },
-    colors: ['#00c5dc'],
-    title: {
-      text: 'Revenue',
-      style: {
-        fontSize: '26px'
-      }
-    },
-    xaxis: {
-      crosshairs: {
-        width: 1
-      },
-    }
-  }
-  
-  new ApexCharts(document.querySelector("#spark1"), spark1).render();
-  new ApexCharts(document.querySelector("#spark2"), spark2).render();
-  new ApexCharts(document.querySelector("#spark3"), spark3).render();
-  new ApexCharts(document.querySelector("#spark4"), spark4).render();
-  
-  var optionsBar = {
-    chart: {
-      type: 'bar',
-      height: 250,
-      width: '100%',
-      stacked: true,
-      foreColor: '#999',
-    },
-    plotOptions: {
-      bar: {
-        dataLabels: {
+  function drawPendChart(pend, tot) {
+    let ser = Math.floor(((tot - pend) / tot) * 100)
+    var optionsCircle1 = {
+      chart: {
+        type: 'radialBar',
+        height: 266,
+        zoom: {
           enabled: false
         },
-        columnWidth: '75%',
-        endingShape: 'rounded'
-      }
-    },
-    colors: ["#00C5A4", '#F3F2FC'],
-    series: [{
-      name: "Upvote",
-      data: [20, 16, 24, 28, 26, 22, 15, 5, 14, 16, 22, 29],
-    }, {
-      name: "Downvote",
-      data: [20, 16, 24, 28, 26, 22, 15, 5, 14, 16, 22, 29],
-    }],
-    labels: ["January", "February", "March", "April", "May", 
-            "June", "July","August", "September", "October", 
-            "November","December",],
-    xaxis: {
-      axisBorder: {
-        show: true
+        offsetY: 20
       },
-      axisTicks: {
-        show: false
-      },
-      crosshairs: {
-        show: false
-      },
-      labels: {
-        show: false,
-        style: {
-          fontSize: '12px'
-        }
-      },
-    },
-    grid: {
-      xaxis: {
-        lines: {
-          show: false
-        },
-      },
-      yaxis: {
-        lines: {
-          show: false
-        },
-      }
-    },
-    yaxis: {
-      axisBorder: {
-        show: false
-      },
-      labels: {
-        show: true
-      },
-    },
-    legend: {
-      floating: true,
-      position: 'top',
-      horizontalAlign: 'right',
-      offsetY: -36
-    },
-    title: {
-      text: 'Monthly Company Ratings',
-      align: 'left',
-    },
-    subtitle: {
-      text: 'Votes'
-    },
-    tooltip: {
-      shared: true,
-      intersect: false
-    }
-  
-  }
-  
-  var chartBar = new ApexCharts(document.querySelector('#bar'), optionsBar);
-  chartBar.render();
-  
-  var optionsCircle1 = {
-    chart: {
-      type: 'radialBar',
-      height: 266,
-      zoom: {
-        enabled: false
-      },
-      offsetY: 20
-    },
-    colors: ['#E91E63'],
-    plotOptions: {
-      radialBar: {
-        dataLabels: {
-          name: {
-            show: true
-          },
-          value: {
-            offsetY: 0
+      colors: ['#E91E63'],
+      plotOptions: {
+        radialBar: {
+          dataLabels: {
+            name: {
+              show: true
+            },
+            value: {
+              offsetY: 0
+            }
           }
         }
+      },
+      series: [ser],
+      theme: {
+        monochrome: {
+          enabled: false
+        }
+      },
+      legend: {
+        show: false
+      },
+      title: {
+        text: 'Messages Replied',
+        align: 'left'
       }
-    },
-    series: [70],
-    theme: {
-      monochrome: {
-        enabled: false
-      }
-    },
-    legend: {
-      show: false
-    },
-    title: {
-      text: 'Tasks Assigned',
-      align: 'left'
     }
+    
+    var chartCircle1 = new ApexCharts(document.querySelector('#radialBar1'), optionsCircle1);
+    chartCircle1.render();
   }
   
-  var chartCircle1 = new ApexCharts(document.querySelector('#radialBar1'), optionsCircle1);
-  chartCircle1.render();
   
   
   var optionsDonutTop = {
@@ -320,10 +168,10 @@ window.Apex = {
     },
     colors: ['#775DD0', '#00C8E1', '#FFB900', '#E91E63'],
     title: {
-      text: 'Company Budget'
+      text: 'Site Activity'
     },
     series: [15, 40, 20, 25],
-    labels: ['Advertisement', 'Production', 'Salary', 'Reserve'],
+    labels: ['A', 'P', 'S', 'R'],
     legend: {
       show: true
     }

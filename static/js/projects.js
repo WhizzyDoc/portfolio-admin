@@ -173,8 +173,8 @@ function getProjects() {
                 <td>${e[i].database.title}</td>
                 <td>${date}</td>
                 <td>
-                <a href="#" class="emp-det-link" data-id="${e[i].id}"><i class="fa fa-eye"></i> Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="#" class="emp-com-link" data-id="${e[i].id}"><i class="fa fa-comments-o"></i> Comments</a>
+                <a href="#" class="emp-det-link" data-id="${e[i].id}"><i class="fa fa-eye"></i> View</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" class="emp-com-link" data-id="${e[i].id}"><i class="fa fa-bar-chart"></i> Details</a>
                 </td>
               </tr>`;
               $('.emp-list').append(temp)
@@ -272,7 +272,7 @@ function addProject() {
 }
 
 function getProjectDetails(id) {
-    let url = `${base_url}projects/get_project/?project_id=${id}&api_token=${localStorage.api_key}`
+    let url = `${base_url}projects/get_project/?project_id=${id}&api_token=${localStorage.api_key}&type=admin`
     fetch(url)
     .then(res => {return res.json()})
     .then(data => {
@@ -320,30 +320,96 @@ function readFile() {
 }
 
 function getProjectComments(id) {
-    let url = `${base_url}employees/get_employee_report/?employee_id=${id}`
+    $('#com_id').val(id)
+    let page = $('#com_page').val();
+    let per_page = 10;
+    let search = $('#com_search').val();
+    let sort_by = $('.star-filter').val();
+    let url = `${base_url}comments/get_comments/?project_id=${id}&api_token=${localStorage.api_key}&page=${page}&per_page=${per_page}&search=${search}&sort_by=${sort_by}`;
     fetch(url)
     .then(res => {return res.json()})
     .then(data => {
-        console.log(data)
-        if(data['status'] == 'success') {
-            p = data.profile,
-            t = data.data,
-            $('.emp_names').html(`${p.first_name} ${p.last_name}`)
-            $('.emp_pos').html(`${p.position.title}`)
-            $('.emp_dep').html(`${p.department.title}`)
-            let dp = `./static/image/avatar.png`
-            if(p.image) {
-                dp = `${base_image_url}${p.image}`;
+      console.log(data);
+      $('.comm-list').empty()
+      if(data['status'] == 'success') {
+        let pages = data.total_pages
+        $('#pro-comm-title').html(data.project.title)
+        $('.iframe-content').attr('src', data.project.live_url)
+        $('.com_page_nos').empty();
+        for(var i=0; i<pages; i++) {
+            let classN = "";
+            if((i+1) == data.page_number) {
+                classN = "active"
             }
-            $('.emp_rep_dp').attr('src', dp)
+            if((i+1) > (data.page_number + 1) || (i+1) < (data.page_number - 1)) {
+                continue
+            }
+            var temp = `<a href="#" class="com_page_no ${classN}" data-id="${i+1}">${i+1}</a>`;
+            $('.com_page_nos').append(temp);
         }
-        else if(data['status'] == 'error') {
-            swal('Error', data['message'], 'error')
+        let current_p = $('.com_page_no.active').data('id')
+        //console.log(current_p + ":" + typeof(current_p))
+        if((current_p - 1) > 0) {
+            let prev = `<a href="#" class="com_page_no" data-id="${current_p - 1}"><i class="fa fa-angle-left"></i></a>`
+            $('.com_page_nos').prepend(prev);
         }
+        if((current_p + 1) <= data.total_pages) {
+            let next = `<a href="#" class="com_page_no" data-id="${current_p + 1}"><i class="fa fa-angle-right"></i></a>`
+            $('.com_page_nos').append(next);
+        }
+        $('.com_page_no').click(function(e) {
+            e.preventDefault();
+            let page = $(this).data('id');
+            $('#com_page').val(page);
+            getProjectComments(id);
+        })
+        if(data.data) {
+            let e = data.data;
+            for(var i in e) {
+                date = new Date(e[i].date).toLocaleDateString();
+                let temp = `<tr>
+                <td>
+                <div class="w-bold-xx w-text-indigo">${e[i].name}</div>
+                </td>
+                <td>${e[i].email}</td>
+                <td>${e[i].comment}</td>
+                <td></td>
+                <td>${date}</td>
+                <td>
+                <a href="#" class="com-rep-link" data-id="${e[i].id}"><i class="fa fa-reply"></i> Reply</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" class="com-act-link" data-id="${e[i].id}"><i class="fa fa-warning"></i> Deactivate</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#" class="com-del-link" data-id="${e[i].id}"><i class="fa fa-trash"></i> Delete</a>
+                </td>
+              </tr>`;
+              $('.comm-list').append(temp)
+            }
+            $('.com-rep-link').click(function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                //$('.emp_det_con').addClass('active')
+            })
+            $('.com-act-link').click(function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                //$('.emp_rep_con').addClass('active')
+            })
+        }
+        else {
+            let temp = `<tr>
+            <td colspan="6">No comments found.</td>
+            </tr>`;
+            $('.comm-list').append(temp)
+        }
+      }
+      else if(data['status'] == 'error') {
+        //$('.emp-no').html('0');
+        let temp = `<tr>
+            <td colspan="6">${data['message']}</td>
+            </tr>`;
+            $('.comm-list').append(temp)
+      }
     })
-    .catch(err => {
-        console.log(err)
-    })
+    .catch(err => {console.log(err)})
 }
 
 function editProject() {

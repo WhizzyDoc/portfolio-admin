@@ -23,8 +23,8 @@ window.Apex = {
     },
     colors: ["#00C5A4"],
     series: [{
-      name: "Perfomance",
-      data: [87, 89, 74, 93, 81, 100, 57, 0, 0, 0, 0, 0],
+      name: "Views",
+      data: [87, 89, 74, 93, 81, 100, 57, 23, 5, 41, 12, 0],
     }],
     labels: ["January", "February", "March", "April", "May", 
             "June", "July","August", "September", "October", 
@@ -40,7 +40,7 @@ window.Apex = {
         show: false
       },
       labels: {
-        show: false,
+        show: true,
         style: {
           fontSize: '12px'
         }
@@ -73,11 +73,11 @@ window.Apex = {
       offsetY: -36
     },
     title: {
-      text: 'Monthly Employee Performance',
+      text: 'Monthly Views',
       align: 'left',
     },
     subtitle: {
-      text: 'Percentage'
+      text: 'Views'
     },
     tooltip: {
       shared: true,
@@ -107,10 +107,10 @@ window.Apex = {
     },
     colors: ["#00C5A4"],
     series: [{
-      name: "Work Hours",
-      data: [7, 7, 8, 7, 6],
+      name: "Views",
+      data: [7, 7, 8, 7, 6, 0, 0],
     }],
-    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     xaxis: {
       axisBorder: {
         show: true
@@ -122,7 +122,7 @@ window.Apex = {
         show: false
       },
       labels: {
-        show: false,
+        show: true,
         style: {
           fontSize: '12px'
         }
@@ -155,11 +155,11 @@ window.Apex = {
       offsetY: -36
     },
     title: {
-      text: 'Weekly Attendance',
+      text: 'Weekly Views',
       align: 'left',
     },
     subtitle: {
-      text: 'Work Hours'
+      text: 'Views'
     },
     tooltip: {
       shared: true,
@@ -232,7 +232,7 @@ window.Apex = {
     },
     colors: ['#ff0000', '#ffa500', '#ffff00', '#00ff00', '#008000'],
     title: {
-      text: 'Employee Ratings'
+      text: 'Star Ratings'
     },
     series: [2, 8, 12, 36, 42],
     labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
