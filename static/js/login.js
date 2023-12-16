@@ -6,6 +6,7 @@ function register() {
     let email = $('#email').val()
     let phone = $('#phone').val()
     let username = $('#reg-username').val()
+    let site = $('#site-name').val()
     let pass = $('#reg-pass').val()
     let cpass = $('#cpass').val()
     if(cpass !== pass) {
@@ -18,6 +19,7 @@ function register() {
     formData.append('first_name', f_name);
     formData.append('last_name', l_name);
     formData.append('email', email);
+    formData.append('site_name', site);
     formData.append('phone_number', phone);
     formData.append('username', username);
     formData.append('password', pass);

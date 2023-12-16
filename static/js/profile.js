@@ -1,3 +1,16 @@
+
+  tinymce.init({
+        selector: '.html-text',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Admin',
+        mergetags_list: [
+            {value: 'First.Name', title: 'First Name'},
+            {value: 'Email', title: 'Email'},
+        ],
+    });
+
 function getProfile() {
     let url = `${base_url}author/get_profile/?api_token=${localStorage.api_key}`;
     fetch(url)
@@ -14,6 +27,8 @@ function getProfile() {
             $('#linkedin').val(p.linkedin)
             $('#twitter').val(p.twitter)
             $('#facebook').val(p.facebook)
+            $('#site-name').val(p.site_title)
+            $('#instagram').val(p.instagram)
             $('#about').val(p.bio)
             $('#api_key').val(p.api_token)
             if(p.image) {
@@ -48,6 +63,8 @@ function saveProfile() {
     let facebook = $('#facebook').val()
     let linkedin = $('#linkedin').val()
     let twitter = $('#twitter').val()
+    let insta = $('#instagram').val()
+    let site = $('#site-name').val()
     let about = $('#about').val()
     let image = $('.comp-im')[0].files[0]
     if(fname.trim() === '' || email.trim() === '' || lname.trim() === '') {
@@ -62,6 +79,8 @@ function saveProfile() {
     formData.append('email', email)
     formData.append('github', github)
     formData.append('facebook', facebook)
+    formData.append('instagram', insta)
+    formData.append('site-name', site)
     formData.append('about', about)
     formData.append('linkedin', linkedin)
     formData.append('twitter', twitter)

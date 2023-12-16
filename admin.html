@@ -28,6 +28,7 @@
         e.preventDefault();
         logout();
       })
+      
       var acc = document.getElementsByClassName("accordion");
 var i;
 
@@ -116,6 +117,10 @@ for (i = 0; i < acc.length; i++) {
                 <label for="number">Phone Number:</label>
                 <input type="text" class="form-control" id="number" placeholder="e.g 07011223344">
               </div>
+              <div class="form-group">
+                <label for="site-name">Site Name:</label>
+                <input type="text" class="form-control" id="site-name">
+              </div>
             </div>
 
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 w-padding">
@@ -134,6 +139,10 @@ for (i = 0; i < acc.length; i++) {
               <div class="form-group">
                 <label for="facebook">Facebook Profile Link:</label>
                 <input type="url" class="form-control" id="facebook">
+              </div>
+              <div class="form-group">
+                <label for="instagram">Instagram Profile Link:</label>
+                <input type="url" class="form-control" id="instagram">
               </div>
             </div>
 
@@ -723,18 +732,6 @@ var page=document.querySelector(`template[route='${hash}']`)||'404';"?>
 <?end?>
 
 <script src="./static/js/functions.js"></script>
-<script>
-  tinymce.init({
-        selector: '.html-text',
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Admin',
-        mergetags_list: [
-            {value: 'First.Name', title: 'First Name'},
-            {value: 'Email', title: 'Email'},
-        ],
-    });
-</script>
+
 </body>
 </html>                                                                                                                                               
