@@ -29,7 +29,7 @@ function getProfile() {
             $('#facebook').val(p.facebook)
             $('#site-name').val(p.site_title)
             $('#instagram').val(p.instagram)
-            $('#about').val(p.bio)
+            $('#about-me').val(p.bio)
             $('#api_key').val(p.api_token)
             if(p.image) {
                 $('.comp_image').attr('src', `${base_image_url}${p.image}`)
@@ -65,7 +65,7 @@ function saveProfile() {
     let twitter = $('#twitter').val()
     let insta = $('#instagram').val()
     let site = $('#site-name').val()
-    let about = $('#about').val()
+    let about = $('#about-me').val()
     let image = $('.comp-im')[0].files[0]
     if(fname.trim() === '' || email.trim() === '' || lname.trim() === '') {
         swal("OOps", "Names or Email cannot be empty", "warning");
