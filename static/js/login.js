@@ -72,6 +72,7 @@ function authenticate() {
                 localStorage.setItem('dp', data.data.image)
             }
             localStorage.setItem('names', `${data.data.first_name} ${data.data.last_name}`);
+            localStorage.setItem('site', `${data.data.site_title}`);
             location.href = './admin.html'
         }
         else if(data['status'] == 'error') {
@@ -104,6 +105,7 @@ function logout() {
         if(data['status'] == 'success') {
             localStorage.removeItem('api_key')
             localStorage.removeItem('names');
+            localStorage.removeItem('site');
             localStorage.removeItem('dp');
             location.href = './index.html'
         }

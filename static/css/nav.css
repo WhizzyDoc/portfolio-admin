@@ -736,3 +736,48 @@ text-align: justify;
   min-height: 600px;
   border: 1px solid lightblue;
 }
+
+/* Resume */
+.main-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 10mm auto;
+  background: #fff;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+.sub-page {
+  padding: 1cm;
+  height: 297mm;
+}
+.page-head img {
+  width: 30mm;
+  height: 30mm;
+  border-radius: 4mm;
+}
+.res-header {
+  border-bottom: 2px solid gray;
+}
+.res-content ul {
+  padding-left:30px;
+}
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+  .res-btn {display:none}
+  .main-page {
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    page-break-after: always;
+  }
+}

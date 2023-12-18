@@ -99,7 +99,7 @@ window.Apex = {
         chartBar.render();
       }
       else {
-        document.querySelector('#bar').html(`<h3 class="w-text-grey">No project yet</h3>`)
+        document.querySelector('#bar').innerHTML = `<h3 class="w-text-grey">No project yet</h3>`
       }
     }
   }

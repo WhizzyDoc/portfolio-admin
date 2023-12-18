@@ -1,14 +1,3 @@
-tinymce.init({
-    selector: '.html-text',
-    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-    tinycomments_mode: 'embedded',
-    tinycomments_author: 'Admin',
-    mergetags_list: [
-        {value: 'First.Name', title: 'First Name'},
-        {value: 'Email', title: 'Email'},
-    ],
-});
 
 function getCategories() {
     let url = `${base_url}categories/get_categories/`;
@@ -379,21 +368,26 @@ function getProjectComments(id) {
             let e = data.data;
             for(var i in e) {
                 date = new Date(e[i].date).toLocaleDateString();
+                
                 let temp = `<tr>
                 <td>
                 <div class="w-bold-xx w-text-indigo">${e[i].name}</div>
+                <p>
+                    <a href="#" class="com-rep-link" data-id="${e[i].id}"><i class="fa fa-reply"></i> Reply</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="com-del-link" data-id="${e[i].id}"><i class="fa fa-trash"></i> Delete</a>
+                </p>
                 </td>
                 <td>${e[i].email}</td>
                 <td>${e[i].comment}</td>
-                <td></td>
+                <td id="star-no${e[i].id}"></td>
                 <td>${date}</td>
-                <td>
-                <a href="#" class="com-rep-link" data-id="${e[i].id}"><i class="fa fa-reply"></i> Reply</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="#" class="com-act-link" data-id="${e[i].id}"><i class="fa fa-warning"></i> Deactivate</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="#" class="com-del-link" data-id="${e[i].id}"><i class="fa fa-trash"></i> Delete</a>
-                </td>
               </tr>`;
+              let star = e[i].star
+              let cid = e[i].id
               $('.comm-list').append(temp)
+              for(var i=0; i<star; i++) {
+                $(`#star-no${cid}`).append(`<i class="fa fa-star w-text-yellow"></i>`);
+            }
             }
             $('.com-rep-link').click(function(e) {
                 e.preventDefault();
@@ -514,3 +508,15 @@ function deleteProject(id) {
         $('.emp-del-btn').html(`<i class="fa fa-trash"></i> Delete Project`).attr('disabled', false)
     })
 }
+
+tinymce.init({
+    selector: '.html-text',
+    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Admin',
+    mergetags_list: [
+        {value: 'First.Name', title: 'First Name'},
+        {value: 'Email', title: 'Email'},
+    ],
+});

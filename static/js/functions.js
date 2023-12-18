@@ -3,7 +3,7 @@ const base_image_url = `https://riganapi.pythonanywhere.com`;
 const base_url = `${base_image_url}/api/v2/`;
 
 $(document).ready(function() {
-    
+    $('title').text(`${localStorage.site} Admin`)
 })
 
 /* Navigation bar */

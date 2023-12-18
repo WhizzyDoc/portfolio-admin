@@ -6,18 +6,25 @@
   <!-- navigation bar -->
   <template id="sidenav">
     <div id="mySidenav" class="sidenav">
-      <h3 class="w-bold-x site-title">Portfolio</h3>
+      <h3 class="w-bold-x site-title">
+        <?print: localStorage.site?>
+      </h3>
       <a href="javascript:void(0)" class="closebtn" onclick="openNav()">&times;</a>
       <a href="#" class="dash-act"><i class="fa fa-th-large"></i> Dashboard</a>
-      <a href="#profile" class="pro-act"><i class="fa fa-user"></i> Profile</a>
+      <a class="accordion user-act"><i class="fa fa-user"></i> Profile</a>
+      <ul class="panel">
+        <li><a href="#profile" class="pro-act"><i class="fa fa-user"></i> My Profile</a></li>
+        <li><a href="#skills" class="skill-act"><i class="fa fa-briefcase"></i> Skills</a></li>
+        <li><a href="#resume" class="resume-act"><i class="fa fa-file-o"></i> Resume</a></li>
+      </ul>
       <a href="#projects" class="emp-act"><i class="fa fa-code"></i> Projects</a>
       <a href="#messages" class="mess-act"><i class="fa fa-envelope"></i> Messages</a>
       <a href="#notifications" class="note-act"><i class="fa fa-bell"></i> Notifications</a>
-      <a href="#users" class="user-act"><i class="fa fa-users"></i> Users</a>
+      <a href="#users" class="users-act"><i class="fa fa-users"></i> Users</a>
       <a class="accordion set-act"><i class="fa fa-gear"></i> Settings</a>
       <ul class="panel">
-        <li><a href="#change_password"><i class="fa fa-key"></i> Password</a></li>
-        <li><a href="#account_settings"><i class="fa fa-lock"></i> Account Settings</a></li>
+        <li><a href="#change_password" class="pass-act"><i class="fa fa-key"></i> Password</a></li>
+        <li><a href="#account_settings" class="acc-act"><i class="fa fa-lock"></i> Account Settings</a></li>
       </ul>
       <a href="#" class="w-text-red logout-btn"><i class="fa fa-power-off"></i> Logout</a>
     </div>
@@ -73,7 +80,7 @@ for (i = 0; i < acc.length; i++) {
     
   </template>
 
-  <!-- for company profile -->
+  <!-- for user profile -->
   <template id="profile">
     <?use-template: "sidenav"?>
         <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
@@ -158,6 +165,7 @@ for (i = 0; i < acc.length; i++) {
         <script src="./static/js/profile.js"></script>
     <script>
       $('.pro-act').addClass('active');
+      $('.user-act').addClass('active');
       $('#comp-form').submit(function(e) {
             e.preventDefault();
             saveProfile();
@@ -166,6 +174,114 @@ for (i = 0; i < acc.length; i++) {
         let message = $('#api_key').val()
         copyText(message)
       })
+    </script>
+  </template>
+
+  <!-- for resume -->
+  <template id="resume">
+    <div class="main-page">
+      <div class="sub-page">
+        <div class="page-head w-margin-bottom w-flex w-flex-start w-align-center">
+          <img class="res-img" src="./static/image/avatar.png" alt="" />
+          <div class="w-padding">
+            <div class="h2 w-bold-xx w-text-blue res-name"></div>
+            <div class="p w-bold">221b Baker Street, Marylebone, London</div>
+            <div class="p w-bold"><span class="res-email"></span>&nbsp;|&nbsp;<span class="res-phone"></span>&nbsp;|&nbsp;DoB: 01/01/2001</div>
+          </div>
+        </div>
+        <p class="w-margin-bottom w-padding-bottom"><span class="res-bio"></span></p>
+        <section class="res-section w-margin-bottom">
+          <div class="res-header w-bold-x h4 w-text-blue">Experience</div>
+          <div class="res-content"></div>
+        </section>
+        <section class="res-section w-margin-bottom">
+          <div class="res-header w-bold-x h4 w-text-blue">Education</div>
+          <div class="res-content"></div>
+        </section>
+        <section class="res-section w-margin-bottom">
+          <div class="res-header w-bold-x h4 w-text-blue">Projects</div>
+          <div class="res-content res-pro-content"></div>
+        </section>
+        <section class="res-section w-margin-bottom">
+          <div class="res-header w-bold-x h4 w-text-blue">Awards</div>
+          <div class="res-content"></div>
+        </section>
+        <section class="res-section w-margin-bottom">
+          <div class="res-header w-bold-x h4 w-text-blue">Key Skills</div>
+          <div class="res-content">
+          <ul class="res-skill-content"></ul>
+          </div>
+        </section>
+        <section class="res-section w-margin-bottom">
+          <div class="res-header w-bold-x h4 w-text-blue">Interests</div>
+          <div class="res-content"></div>
+        </section>
+        <section class="res-section w-margin-bottom">
+          <div class="res-header w-bold-x h4 w-text-blue">Social Media</div>
+          <div class="res-content">
+            <div class="w-flex w-flex-between w-align-center">
+              <div class="w-bold-x">- LinkedIn</div>
+              <a href="" id="res-linkedin"></a>
+            </div>
+            <div class="w-flex w-flex-between w-align-center">
+              <div class="w-bold-x">- Github</div>
+              <a href="" id="res-github"></a>
+            </div>
+            <div class="w-flex w-flex-between w-align-center">
+              <div class="w-bold-x">- Twitter</div>
+              <a href="" id="res-twitter"></a>
+            </div>
+            <div class="w-flex w-flex-between w-align-center">
+              <div class="w-bold-x">- Facebook</div>
+              <a href="" id="res-facebook"></a>
+            </div>
+            <div class="w-flex w-flex-between w-align-center">
+              <div class="w-bold-x">- Instagram</div>
+              <a href="" id="res-instagram"></a>
+            </div>
+          </div>
+        </section>
+        <section class="res-section w-margin-bottom">
+          <div class="res-header w-bold-x h4 w-text-blue">References</div>
+          <div class="res-content"></div>
+        </section>
+      </div>
+    </div>
+    <div class="res-btn w-padding-bottom w-flex w-flex-center w-align-center">
+      <button class="w-margin-right w-margin-bottom btn btn-primary btn-print"><i class="fa fa-print"></i> Print</button>
+      <button class="w-margin-right w-margin-bottom btn btn-success btn-download"><i class="fa fa-download"></i> Download As PDF</button>
+      <button class="w-margin-bottom btn btn-secondary btn-home"><i class="fa fa-home"></i> Go Back</button>
+    </div>
+    <script src="./static/js/resume.js"></script>
+    <script>
+      $('.resume-act').addClass('active');
+      $('.user-act').addClass('active');
+      $('.btn-print').click(function() {
+        window.print();
+      })
+      $('.btn-download').click(function() {
+        let page = $('.main-page')
+        html2pdf(page);
+      })
+      $('.btn-home').click(function() {
+        location.href = '/'
+      })
+    </script>
+  </template>
+
+  <!-- for skills -->
+  <template id="skills">
+    <?use-template: "sidenav"?>
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+        <main class="">
+          <?use-template: "header"?>
+          <h2 class="w-bold-x w-center">Skills & Experience</h2>
+          
+        </main>
+        <script src="./static/js/profile.js"></script>
+    <script>
+      $('.skill-act').addClass('active');
+      $('.user-act').addClass('active');
     </script>
   </template>
 
@@ -215,7 +331,7 @@ for (i = 0; i < acc.length; i++) {
               <div class="h5 w-bold-x">Users</div>
               <h3><i class="fa fa-users w-text-blue"></i>&nbsp;&nbsp;&nbsp;<span class="w-bold-x user_no">0</span></h3>
             </a>
-            <a href="#queries" class="dash-menu-con col-12 col-sm-5 col-md-5 col-lg-5 col-xl-3">
+            <a href="#messages" class="dash-menu-con col-12 col-sm-5 col-md-5 col-lg-5 col-xl-3">
               <div class="h5 w-bold-x">Pending Messages</div>
               <h3><i class="fa fa-envelope w-text-blue"></i>&nbsp;&nbsp;&nbsp;<span class="w-bold-x mess_no">0</span></h3>
             </a>
@@ -515,14 +631,13 @@ for (i = 0; i < acc.length; i++) {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Comment</th>
-                    <th>Replied</th>
+                    <th>Rating</th>
                     <th>Date</th>
-                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody class="comm-list">
                   <tr>
-                    <td colspan="6" class="w-center">
+                    <td colspan="5" class="w-center">
                     <div class="loader">
                         <div class="ball w-black"></div>
                         <div class="ball w-black"></div>
@@ -663,6 +778,83 @@ $(".custom-file-input").on("change", function() {
     </script>
   </template>
 
+  <!-- for messages -->
+  <template id="messages">
+    <?use-template: "sidenav"?>
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+        <main class="">
+          <?use-template: "header"?>
+          <h2 class="w-bold-x w-center">Messages</h2>
+          
+        </main>
+        <script src=""></script>
+    <script>
+      $('.mess-act').addClass('active');
+    </script>
+  </template>
+
+  <!-- for notifications -->
+  <template id="notifications">
+    <?use-template: "sidenav"?>
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+        <main class="">
+          <?use-template: "header"?>
+          <h2 class="w-bold-x w-center">notifications</h2>
+          
+        </main>
+        <script src=""></script>
+    <script>
+      $('.note-act').addClass('active');
+    </script>
+  </template>
+
+  <!-- for users -->
+  <template id="users">
+    <?use-template: "sidenav"?>
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+        <main class="">
+          <?use-template: "header"?>
+          <h2 class="w-bold-x w-center">Users</h2>
+          
+        </main>
+        <script src=""></script>
+    <script>
+      $('.users-act').addClass('active');
+    </script>
+  </template>
+
+  <!-- for change password -->
+  <template id="change_password">
+    <?use-template: "sidenav"?>
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+        <main class="">
+          <?use-template: "header"?>
+          <h2 class="w-bold-x w-center">Change Password</h2>
+          
+        </main>
+        <script src=""></script>
+    <script>
+      $('.set-act').addClass('active');
+      $('.pass-act').addClass('active');
+    </script>
+  </template>
+
+  <!-- for account settings -->
+  <template id="account_settings">
+    <?use-template: "sidenav"?>
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+        <main class="">
+          <?use-template: "header"?>
+          <h2 class="w-bold-x w-center">Account Settings</h2>
+          
+        </main>
+        <script src=""></script>
+    <script>
+      $('.set-act').addClass('active');
+      $('.acc-act').addClass('active');
+    </script>
+  </template>
+
   <!-- error 404 page -->
   <template id="404">
     <?include: "templates/_parts/404.html"?><?end?>
@@ -676,8 +868,29 @@ $(".custom-file-input").on("change", function() {
 <template route="/profile">
   <?use-template: "profile"?>
 </template>
+<template route="/resume">
+  <?use-template: "resume"?>
+</template>
+<template route="/skills">
+  <?use-template: "skills"?>
+</template>
 <template route="/projects">
   <?use-template: "projects"?>
+</template>
+<template route="/messages">
+  <?use-template: "messages"?>
+</template>
+<template route="/notifications">
+  <?use-template: "notifications"?>
+</template>
+<template route="/users">
+  <?use-template: "users"?>
+</template>
+<template route="/change_password">
+  <?use-template: "change_password"?>
+</template>
+<template route="/account_settings">
+  <?use-template: "account_settings"?>
 </template>
 
 <!-- Standard Meta -->
@@ -686,7 +899,7 @@ $(".custom-file-input").on("change", function() {
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <!-- Site Properties -->
-<title>Portfolio</title>
+<title></title>
 <link rel="stylesheet" type="text/css" href="./static/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="./static/css/fontawesome.css">
 <link rel="stylesheet" type="text/css" href="./static/css/rigan.css">
@@ -696,6 +909,8 @@ $(".custom-file-input").on("change", function() {
 <link rel="stylesheet" type="text/css" href="./static/css/nav.css">
 <script src="./static/module/swif.js"></script>
 <script src="./dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script src="./static/js/bootstrap.min.js"></script>
 <script src="./static/js/sweetalert.min.js"></script>
 <script src="./dist/semantic.min.js"></script>
