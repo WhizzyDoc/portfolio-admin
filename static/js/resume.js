@@ -43,7 +43,7 @@ function getResumeProjects() {
                   <div>${date}</div>
                 </div>
                 <ul>
-                  <li>${p[i].description}</li>
+                  <li>A short description will be here. i'll add that later</li>
                 </ul>
               </div>`;
               $('.res-pro-content').append(temp)
@@ -86,7 +86,9 @@ function setPage() {
         'font-size': '12pt',
         'font-family': 'Times New Roman',
         'height': '100%',
-        'padding': '0'
+        'padding': '0',
+        'max-width': 'auto',
+        'overflow-x': 'auto'
     })
 }
 setPage()
