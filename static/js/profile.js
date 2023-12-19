@@ -11,6 +11,9 @@ function getProfile() {
             $('#lname').val(p.last_name)
             $('#email').val(p.email)
             $('#number').val(p.phone_number)
+            $('#address').val(p.address)
+            $('#dob').val(p.dob)
+            $('#work').val(p.work_description)
             $('#github').val(p.github)
             $('#linkedin').val(p.linkedin)
             $('#twitter').val(p.twitter)
@@ -47,6 +50,9 @@ function saveProfile() {
     let lname = $('#lname').val()
     let email = $('#email').val()
     let phone = $('#number').val()
+    let address = $('#address').val()
+    let dob = $('#dob').val()
+    let work = $('#work').val()
     let github = $('#github').val()
     let facebook = $('#facebook').val()
     let linkedin = $('#linkedin').val()
@@ -65,6 +71,9 @@ function saveProfile() {
     formData.append('lname', lname)
     formData.append('phone', phone)
     formData.append('email', email)
+    formData.append('address', address)
+    formData.append('dob', dob)
+    formData.append('work', work)
     formData.append('github', github)
     formData.append('facebook', facebook)
     formData.append('instagram', insta)
@@ -114,7 +123,7 @@ function copyText(message) {
     document.body.removeChild(textArea)
     swal('Success', 'copied!', 'success')
 }
-
+/*
 tinymce.init({
     selector: '.html-text',
     plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
@@ -126,3 +135,4 @@ tinymce.init({
         {value: 'Email', title: 'Email'},
     ],
 });
+*/

@@ -128,9 +128,17 @@ for (i = 0; i < acc.length; i++) {
                 <label for="site-name">Site Name:</label>
                 <input type="text" class="form-control" id="site-name">
               </div>
+              <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" class="form-control" id="address">
+              </div>
             </div>
 
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 w-padding">
+              <div class="form-group">
+                <label for="dob">Date Of Birth:</label>
+                <input type="date" class="form-control" id="dob">
+              </div>
               <div class="form-group">
                 <label for="github">Github Profile Link:</label>
                 <input type="url" class="form-control" id="github">
@@ -152,10 +160,13 @@ for (i = 0; i < acc.length; i++) {
                 <input type="url" class="form-control" id="instagram">
               </div>
             </div>
-
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 w-padding">
+              <label for="work">Work Description:</label>
+              <textarea id="work" class="html-text form-control" rows="4"></textarea>
+            </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 w-padding">
               <label for="about-me">About You:</label>
-              <textarea id="about-me" class="html-text form-control" rows="8"></textarea>
+              <textarea id="about-me" class="html-text form-control" rows="4"></textarea>
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 w-padding">
               <button type="submit" class="btn btn-block form-btn comp-btn">Save Profile</button>
@@ -185,8 +196,8 @@ for (i = 0; i < acc.length; i++) {
           <img class="res-img" src="./static/image/avatar.png" alt="" />
           <div class="w-padding">
             <div class="h2 w-bold-xx w-text-blue res-name"></div>
-            <div class="p w-bold">221b Baker Street, Marylebone, London</div>
-            <div class="p w-bold"><span class="res-email"></span>&nbsp;|&nbsp;<span class="res-phone"></span>&nbsp;|&nbsp;DoB: 01/01/2001</div>
+            <div class="p w-bold res-address"></div>
+            <div class="p w-bold"><span class="res-email"></span>&nbsp;|&nbsp;<span class="res-phone"></span>&nbsp;|&nbsp;DoB: <span class="res-dob"></span></div>
           </div>
         </div>
         <p class="w-margin-bottom w-padding-bottom"><span class="res-bio"></span></p>
@@ -196,7 +207,7 @@ for (i = 0; i < acc.length; i++) {
         </section>
         <section class="res-section w-margin-bottom">
           <div class="res-header w-bold-x h4 w-text-blue">Education</div>
-          <div class="res-content"></div>
+          <div class="res-content res-edu-content"></div>
         </section>
         <section class="res-section w-margin-bottom">
           <div class="res-header w-bold-x h4 w-text-blue">Projects</div>
@@ -214,7 +225,9 @@ for (i = 0; i < acc.length; i++) {
         </section>
         <section class="res-section w-margin-bottom">
           <div class="res-header w-bold-x h4 w-text-blue">Interests</div>
-          <div class="res-content"></div>
+          <div class="res-content">
+            <ul class="res-int-content"></ul>
+          </div>
         </section>
         <section class="res-section w-margin-bottom">
           <div class="res-header w-bold-x h4 w-text-blue">Social Media</div>
@@ -276,9 +289,68 @@ for (i = 0; i < acc.length; i++) {
         <main class="">
           <?use-template: "header"?>
           <h2 class="w-bold-x w-center">Skills & Experience</h2>
-          
+              <!-- Tables -->
+              <div class="table-responsive">
+                <table class="skill-table table">
+                  <thead style="background:#fff">
+                    <tr>
+                      <th colspan="2" class="w-bold-x">Skills</th>
+                      <th><a href="">Add Skill</a></th>
+                    </tr>
+                  </thead>
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th style="min-width:200px;">Description</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="skill-tab">
+                    <tr>
+                      <td colspan="3" class="w-center">
+                      <div class="loader">
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                      </div>
+                      </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Tables -->
+              <div class="table-responsive">
+                <table class="interest-table table">
+                  <thead style="background:#fff">
+                    <tr>
+                      <th class="w-bold-x">Interests</th>
+                      <th><a href="">Add Interest</a></th>
+                    </tr>
+                  </thead>
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="interest-tab">
+                    <tr>
+                      <td colspan="2" class="w-center">
+                      <div class="loader">
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                      </div>
+                      </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+          </div>
         </main>
-        <script src="./static/js/profile.js"></script>
+        <script src="./static/js/skill.js"></script>
     <script>
       $('.skill-act').addClass('active');
       $('.user-act').addClass('active');

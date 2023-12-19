@@ -747,7 +747,7 @@ text-align: justify;
 }
 .sub-page {
   padding: 1cm;
-  height: 297mm;
+  min-height: 297mm;
 }
 .page-head img {
   width: 30mm;
@@ -755,7 +755,17 @@ text-align: justify;
   border-radius: 4mm;
 }
 .res-header {
-  border-bottom: 2px solid gray;
+  background: lightblue;
+  padding: 8px 12px;
+  width: fit-content;
+  border-radius: 0 20px 0 0;
+  color: black !important;
+  margin-bottom: 0;
+}
+.res-content {
+  border-top: 1px solid lightblue;
+  margin-top:0;  
+  padding: 5px;
 }
 .res-content ul {
   padding-left:30px;
