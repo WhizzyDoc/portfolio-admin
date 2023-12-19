@@ -274,7 +274,7 @@ for (i = 0; i < acc.length; i++) {
       })
       $('.btn-download').click(function() {
         let page = $('.main-page')
-        html2pdf(page);
+        html2pdf(document.body);
       })
       $('.btn-home').click(function() {
         location.href = '/'

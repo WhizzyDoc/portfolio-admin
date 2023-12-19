@@ -745,6 +745,33 @@ text-align: justify;
   background: #fff;
   box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
 }
+@media screen and (max-width:800px) {
+  .main-page {
+    transform: scale(0.8);
+    margin-top: -50px;
+  }
+}
+@media screen and (max-width:600px) {
+  .main-page {
+    transform: scale(0.6);
+    margin-top: -200px;
+    margin-left: -150px;
+  }
+}
+@media screen and (max-width:500px) {
+  .main-page {
+    transform: scale(0.5);
+    margin-top: -250px;
+    margin-left: -170px;
+  }
+}
+@media screen and (max-width:400px) {
+  .main-page {
+    transform: scale(0.4);
+    margin-top: -300px;
+    margin-left: -230px;
+  }
+}
 .sub-page {
   padding: 1cm;
   min-height: 297mm;
