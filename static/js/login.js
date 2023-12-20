@@ -52,9 +52,11 @@ function register() {
 function authenticate() {
     $('.login-btn').html('Authenticating...').attr('disabled', true)
     let url = `${base_url}author/authentication/`
+    let username = $('#admin-username').val();
+    let password = $('#admin-password').val();
     const formData = new FormData();
-    formData.append('username', $('#admin-username').val());
-    formData.append('password', $('#admin-password').val());
+    formData.append('username', username);
+    formData.append('password', password);
 
     fetch(url, {
         method:'POST',
@@ -68,6 +70,7 @@ function authenticate() {
         //console.log(data);
         if(data['status'] == 'success') {
             localStorage.setItem('api_key', data.data.api_token)
+            localStorage.setItem('username', username)
             if(data.data.image) {
                 localStorage.setItem('dp', data.data.image)
             }
@@ -107,6 +110,7 @@ function logout() {
             localStorage.removeItem('names');
             localStorage.removeItem('site');
             localStorage.removeItem('dp');
+            localStorage.removeItem('username');
             location.href = './index.html'
         }
         else if(data['status'] == 'error') {

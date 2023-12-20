@@ -15,7 +15,7 @@
       <ul class="panel">
         <li><a href="#profile" class="pro-act"><i class="fa fa-user"></i> My Profile</a></li>
         <li><a href="#skills" class="skill-act"><i class="fa fa-briefcase"></i> Skills</a></li>
-        <li><a href="#resume" class="resume-act"><i class="fa fa-file-o"></i> Resume</a></li>
+        <li><a href="" class="resume-act"><i class="fa fa-file-o"></i> Resume</a></li>
       </ul>
       <a href="#projects" class="emp-act"><i class="fa fa-code"></i> Projects</a>
       <a href="#messages" class="mess-act"><i class="fa fa-envelope"></i> Messages</a>
@@ -35,6 +35,10 @@
         e.preventDefault();
         logout();
       })
+      $('.resume-act').click(function(e) {
+        e.preventDefault()
+        location.href = `${base_image_url}/resume/${localStorage.username}/`
+      })
       
       var acc = document.getElementsByClassName("accordion");
 var i;
@@ -50,6 +54,7 @@ for (i = 0; i < acc.length; i++) {
     } 
   });
 } 
+
     </script>
   </template>
 
@@ -188,114 +193,162 @@ for (i = 0; i < acc.length; i++) {
     </script>
   </template>
 
-  <!-- for resume -->
-  <template id="resume">
-    <div class="main-page">
-      <div class="sub-page">
-        <div class="page-head w-margin-bottom w-flex w-flex-start w-align-center">
-          <img class="res-img" src="./static/image/avatar.png" alt="" />
-          <div class="w-padding">
-            <div class="h2 w-bold-xx w-text-blue res-name"></div>
-            <div class="p w-bold res-address"></div>
-            <div class="p w-bold"><span class="res-email"></span>&nbsp;|&nbsp;<span class="res-phone"></span>&nbsp;|&nbsp;DoB: <span class="res-dob"></span></div>
-          </div>
-        </div>
-        <p class="w-margin-bottom w-padding-bottom"><span class="res-bio"></span></p>
-        <section class="res-section w-margin-bottom">
-          <div class="res-header w-bold-x h4 w-text-blue">Experience</div>
-          <div class="res-content"></div>
-        </section>
-        <section class="res-section w-margin-bottom">
-          <div class="res-header w-bold-x h4 w-text-blue">Education</div>
-          <div class="res-content res-edu-content"></div>
-        </section>
-        <section class="res-section w-margin-bottom">
-          <div class="res-header w-bold-x h4 w-text-blue">Projects</div>
-          <div class="res-content res-pro-content"></div>
-        </section>
-        <section class="res-section w-margin-bottom">
-          <div class="res-header w-bold-x h4 w-text-blue">Awards</div>
-          <div class="res-content"></div>
-        </section>
-        <section class="res-section w-margin-bottom">
-          <div class="res-header w-bold-x h4 w-text-blue">Key Skills</div>
-          <div class="res-content">
-          <ul class="res-skill-content"></ul>
-          </div>
-        </section>
-        <section class="res-section w-margin-bottom">
-          <div class="res-header w-bold-x h4 w-text-blue">Interests</div>
-          <div class="res-content">
-            <ul class="res-int-content"></ul>
-          </div>
-        </section>
-        <section class="res-section w-margin-bottom">
-          <div class="res-header w-bold-x h4 w-text-blue">Social Media</div>
-          <div class="res-content">
-            <div class="w-flex w-flex-between w-align-center">
-              <div class="w-bold-x">- LinkedIn</div>
-              <a href="" id="res-linkedin"></a>
-            </div>
-            <div class="w-flex w-flex-between w-align-center">
-              <div class="w-bold-x">- Github</div>
-              <a href="" id="res-github"></a>
-            </div>
-            <div class="w-flex w-flex-between w-align-center">
-              <div class="w-bold-x">- Twitter</div>
-              <a href="" id="res-twitter"></a>
-            </div>
-            <div class="w-flex w-flex-between w-align-center">
-              <div class="w-bold-x">- Facebook</div>
-              <a href="" id="res-facebook"></a>
-            </div>
-            <div class="w-flex w-flex-between w-align-center">
-              <div class="w-bold-x">- Instagram</div>
-              <a href="" id="res-instagram"></a>
-            </div>
-          </div>
-        </section>
-        <section class="res-section w-margin-bottom">
-          <div class="res-header w-bold-x h4 w-text-blue">References</div>
-          <div class="res-content"></div>
-        </section>
-      </div>
-    </div>
-    <div class="res-btn w-padding-bottom w-flex w-flex-center w-align-center">
-      <button class="w-margin-right w-margin-bottom btn btn-primary btn-print"><i class="fa fa-print"></i> Print</button>
-      <button class="w-margin-right w-margin-bottom btn btn-success btn-download"><i class="fa fa-download"></i> Download As PDF</button>
-      <button class="w-margin-bottom btn btn-secondary btn-home"><i class="fa fa-home"></i> Go Back</button>
-    </div>
-    <script src="./static/js/resume.js"></script>
-    <script>
-      $('.resume-act').addClass('active');
-      $('.user-act').addClass('active');
-      $('.btn-print').click(function() {
-        window.print();
-      })
-      $('.btn-download').click(function() {
-        let page = $('.main-page')
-        html2pdf(document.body);
-      })
-      $('.btn-home').click(function() {
-        location.href = '/'
-      })
-    </script>
-  </template>
-
   <!-- for skills -->
   <template id="skills">
+    <!-- Add Skill Modal -->
+    <div class="modal fade" id="addSkillModal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="add-skill-form">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Skill</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="skill-title">Title:</label>
+              <input type="text" class="form-control" id="skill-title" required>
+            </div>
+            <div class="form-group">
+              <label for="skill-des">Description:</label>
+              <textarea class="form-control" rows="5" id="skill-des" required></textarea>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success add-skill-btn">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <!-- Add Interest Modal -->
+    <div class="modal fade" id="addInterestModal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="add-interest-form">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Interest</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="interest-title">Title:</label>
+              <input type="text" class="form-control" id="interest-title" required>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success add-interest-btn">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <!-- Add Education Modal -->
+    <div class="modal fade" id="addEduModal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="add-edu-form">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Education</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Institution:</label>
+              <input type="text" class="form-control" id="edu-ins" required>
+            </div>
+            <div class="form-group">
+              <label for="">Qualification:</label>
+              <input type="text" class="form-control" id="edu-qua" placeholder="e.g BSc Food Science" required>
+            </div>
+            <div class="form-group">
+              <label for="">Grade:</label>
+              <input type="text" class="form-control" id="edu-grade" placeholder="e.g First Class Honors" required>
+            </div>
+            <div class="form-group">
+              <label for="">Start Date:</label>
+              <input type="date" class="form-control" id="edu-start" required>
+            </div>
+            <div class="form-group">
+              <label for="">End Date:</label>
+              <input type="date" class="form-control" id="edu-end" required>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success add-edu-btn">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Experience Modal -->
+    <div class="modal fade" id="addExpModal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="add-exp-form">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Experience</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Company Name:</label>
+              <input type="text" class="form-control" id="exp-comp" required>
+            </div>
+            <div class="form-group">
+              <label for="">Job Title:</label>
+              <input type="text" class="form-control" id="exp-title" placeholder="e.g Junior Developer" required>
+            </div>
+            <div class="form-group">
+              <label for="">Location:</label>
+              <input type="text" class="form-control" id="exp-loc" required>
+            </div>
+            <div class="form-group">
+              <label for="">Job Description:</label>
+              <textarea class="form-control" rows="5" id="exp-des" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="">Start Date:</label>
+              <input type="date" class="form-control" id="exp-start" required>
+            </div>
+            <div class="form-group">
+              <label for="">End Date:</label>
+              <input type="date" class="form-control" id="exp-end" required>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success add-exp-btn">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
     <?use-template: "sidenav"?>
         <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
         <main class="">
           <?use-template: "header"?>
           <h2 class="w-bold-x w-center">Skills & Experience</h2>
-              <!-- Tables -->
+              <!-- Skills Tables -->
               <div class="table-responsive">
                 <table class="skill-table table">
                   <thead style="background:#fff">
                     <tr>
                       <th colspan="2" class="w-bold-x">Skills</th>
-                      <th><a href="">Add Skill</a></th>
+                      <th><a href="" data-toggle="modal" data-target="#addSkillModal">Add Skill</a></th>
                     </tr>
                   </thead>
                   <thead>
@@ -319,13 +372,13 @@ for (i = 0; i < acc.length; i++) {
                 </table>
               </div>
 
-              <!-- Tables -->
+              <!-- Interests Tables -->
               <div class="table-responsive">
                 <table class="interest-table table">
                   <thead style="background:#fff">
                     <tr>
                       <th class="w-bold-x">Interests</th>
-                      <th><a href="">Add Interest</a></th>
+                      <th><a href="" data-toggle="modal" data-target="#addInterestModal">Add Interest</a></th>
                     </tr>
                   </thead>
                   <thead>
@@ -348,12 +401,90 @@ for (i = 0; i < acc.length; i++) {
                 </table>
               </div>
 
+              <!-- Education Tables -->
+              <div class="table-responsive">
+                <table class="edu-table table">
+                  <thead style="background:#fff">
+                    <tr>
+                      <th colspan="2" class="w-bold-x">Education</th>
+                      <th colspan="2"><a href="" data-toggle="modal" data-target="#addEduModal">Add Education</a></th>
+                    </tr>
+                  </thead>
+                  <thead>
+                    <tr>
+                      <th style="min-width:250px;">Institution</th>
+                      <th>Qualification</th>
+                      <th>Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="edu-tab">
+                    <tr>
+                      <td colspan="4" class="w-center">
+                      <div class="loader">
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                      </div>
+                      </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Experience Tables -->
+              <div class="table-responsive">
+                <table class="exp-table table">
+                  <thead style="background:#fff">
+                    <tr>
+                      <th colspan="2" class="w-bold-x">Experience</th>
+                      <th colspan="2"><a href="" data-toggle="modal" data-target="#addExpModal">Add Experience</a></th>
+                    </tr>
+                  </thead>
+                  <thead>
+                    <tr>
+                      <th style="min-width:250px;">Company</th>
+                      <th>Job Title</th>
+                      <th>Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="exp-tab">
+                    <tr>
+                      <td colspan="4" class="w-center">
+                      <div class="loader">
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                      </div>
+                      </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
           </div>
         </main>
         <script src="./static/js/skill.js"></script>
     <script>
       $('.skill-act').addClass('active');
       $('.user-act').addClass('active');
+      $('#add-skill-form').submit(function(e) {
+        e.preventDefault();
+        addSkill();
+      })
+      $('#add-interest-form').submit(function(e) {
+        e.preventDefault();
+        addInterest();
+      })
+      $('#add-edu-form').submit(function(e) {
+        e.preventDefault();
+        addEducation();
+      })
+      $('#add-exp-form').submit(function(e) {
+        e.preventDefault();
+        addExperience();
+      })
     </script>
   </template>
 
@@ -939,9 +1070,6 @@ $(".custom-file-input").on("change", function() {
 </template>
 <template route="/profile">
   <?use-template: "profile"?>
-</template>
-<template route="/resume">
-  <?use-template: "resume"?>
 </template>
 <template route="/skills">
   <?use-template: "skills"?>

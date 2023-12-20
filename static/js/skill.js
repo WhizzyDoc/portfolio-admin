@@ -4,7 +4,7 @@ function getSkills() {
     .then(res => {return res.json()})
     .then(data => {
     $('.skill-tab').empty()
-      console.log(data);
+      //console.log(data);
       if(data['status'] == 'success') {
         if(data.data) {
             let p = data.data;
@@ -40,7 +40,7 @@ function getInterests() {
     .then(res => {return res.json()})
     .then(data => {
     $('.interest-tab').empty()
-      console.log(data);
+      //console.log(data);
       if(data['status'] == 'success') {
         if(data.data) {
             let p = data.data;
@@ -69,5 +69,246 @@ function getInterests() {
     .catch(err => {console.log(err)})
 }
 
+function getEducation() {
+    let url = `${base_url}education/get_education/?api_token=${localStorage.api_key}`;
+    fetch(url)
+    .then(res => {return res.json()})
+    .then(data => {
+    $('.edu-tab').empty()
+      //console.log(data);
+      if(data['status'] == 'success') {
+        if(data.data) {
+            let p = data.data;
+            for(let i in p) {
+                let start = new Date(p[i].start_date).toLocaleDateString()
+                let end = new Date(p[i].end_date).toLocaleDateString()
+                let temp = `<tr>
+                <td>${p[i].institution}</td>
+                <td>${p[i].qualification}</td>
+                <td>${start} - ${end}</td>
+                <td>
+                    <a class="w-large edit-edu"><i class="fa fa-edit w-text-blue"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a class="w-large del-edu"><i class="fa fa-trash w-text-red"></i></a>
+                </td>
+                </tr>`;
+              $('.edu-tab').append(temp)
+            }
+        }
+        else {
+            let temp = `<tr>
+                <td colspan="4">No education added</td>
+                </tr>`;
+              $('.edu-tab').append(temp)
+        }
+      }
+      else if(data['status'] == 'error') {
+        
+      }
+    })
+    .catch(err => {console.log(err)})
+}
+
+function getExperience() {
+    let url = `${base_url}experience/get_experience/?api_token=${localStorage.api_key}`;
+    fetch(url)
+    .then(res => {return res.json()})
+    .then(data => {
+    $('.exp-tab').empty()
+      //console.log(data);
+      if(data['status'] == 'success') {
+        if(data.data) {
+            let p = data.data;
+            for(let i in p) {
+                let start = new Date(p[i].start_date).toLocaleDateString()
+                let end = new Date(p[i].end_date).toLocaleDateString()
+                let temp = `<tr>
+                <td>${p[i].company}</td>
+                <td>${p[i].job_title}</td>
+                <td>${start} - ${end}</td>
+                <td>
+                    <a class="w-large edit-exp"><i class="fa fa-edit w-text-blue"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a class="w-large del-exp"><i class="fa fa-trash w-text-red"></i></a>
+                </td>
+                </tr>`;
+              $('.exp-tab').append(temp)
+            }
+        }
+        else {
+            let temp = `<tr>
+                <td colspan="4">No experience added</td>
+                </tr>`;
+              $('.exp-tab').append(temp)
+        }
+      }
+      else if(data['status'] == 'error') {
+        
+      }
+    })
+    .catch(err => {console.log(err)})
+}
+
 getSkills();
 getInterests();
+getEducation();
+getExperience();
+
+function addSkill() {
+    let url = `${base_url}skills/add_skill/`;
+    let title = $('#skill-title').val()
+    let des = $('#skill-des').val()
+
+    const formData = new FormData()
+    formData.append('title', title)
+    formData.append('description', des)
+    formData.append('api_token', localStorage.api_key)
+    $('.add-skill-btn').html('Submitting...').attr('disabled', true);
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        console.log(data);
+        if(data['status'] == 'success') {
+            $('.add-skill-btn').html('Submit').attr('disabled', false);
+            swal('Success', data['message'], 'success');
+            $('#add-skill-form')[0].reset();
+            getSkills()
+        }
+        else if(data['status'] == 'error') {
+            $('.add-skill-btn').html('Submit').attr('disabled', false);
+            swal('Error', data['message'], 'error');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        $('.add-skill-btn').html('Submit').attr('disabled', false);
+    })
+}
+function addInterest() {
+    let url = `${base_url}interests/add_interest/`;
+    let title = $('#interest-title').val()
+
+    const formData = new FormData()
+    formData.append('title', title)
+    formData.append('api_token', localStorage.api_key)
+    $('.add-interest-btn').html('Submitting...').attr('disabled', true);
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        console.log(data);
+        if(data['status'] == 'success') {
+            $('.add-interest-btn').html('Submit').attr('disabled', false);
+            swal('Success', data['message'], 'success');
+            $('#add-interest-form')[0].reset();
+            getInterests()
+        }
+        else if(data['status'] == 'error') {
+            $('.add-interest-btn').html('Submit').attr('disabled', false);
+            swal('Error', data['message'], 'error');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        $('.add-interest-btn').html('Submit').attr('disabled', false);
+    })
+}
+function addEducation() {
+    let url = `${base_url}education/add_education/`;
+    let inst = $('#edu-ins').val()
+    let qua = $('#edu-qua').val()
+    let grade = $('#edu-grade').val()
+    let start = $('#edu-start').val()
+    let end = $('#edu-end').val()
+
+    const formData = new FormData()
+    formData.append('institution', inst)
+    formData.append('qualification', qua)
+    formData.append('grade', grade)
+    formData.append('start', start)
+    formData.append('end', end)
+    formData.append('api_token', localStorage.api_key)
+    $('.add-edu-btn').html('Submitting...').attr('disabled', true);
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        console.log(data);
+        if(data['status'] == 'success') {
+            $('.add-edu-btn').html('Submit').attr('disabled', false);
+            swal('Success', data['message'], 'success');
+            $('#add-edu-form')[0].reset();
+            getEducation()
+        }
+        else if(data['status'] == 'error') {
+            $('.add-edu-btn').html('Submit').attr('disabled', false);
+            swal('Error', data['message'], 'error');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        $('.add-edu-btn').html('Submit').attr('disabled', false);
+    })
+}
+function addExperience() {
+    let url = `${base_url}experience/add_experience/`;
+    let comp = $('#exp-comp').val()
+    let title = $('#exp-title').val()
+    let loc = $('#exp-loc').val()
+    let des = $('#exp-des').val()
+    let start = $('#exp-start').val()
+    let end = $('#exp-end').val()
+
+    const formData = new FormData()
+    formData.append('company', comp)
+    formData.append('job_title', title)
+    formData.append('location', loc)
+    formData.append('description', des)
+    formData.append('start', start)
+    formData.append('end', end)
+    formData.append('api_token', localStorage.api_key)
+    $('.add-exp-btn').html('Submitting...').attr('disabled', true);
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        console.log(data);
+        if(data['status'] == 'success') {
+            $('.add-exp-btn').html('Submit').attr('disabled', false);
+            swal('Success', data['message'], 'success');
+            $('#add-exp-form')[0].reset();
+            getExperience()
+        }
+        else if(data['status'] == 'error') {
+            $('.add-exp-btn').html('Submit').attr('disabled', false);
+            swal('Error', data['message'], 'error');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        $('.add-exp-btn').html('Submit').attr('disabled', false);
+    })
+}
