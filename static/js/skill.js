@@ -146,11 +146,49 @@ function getExperience() {
     })
     .catch(err => {console.log(err)})
 }
+function getReference() {
+    let url = `${base_url}reference/get_reference/?api_token=${localStorage.api_key}`;
+    fetch(url)
+    .then(res => {return res.json()})
+    .then(data => {
+    $('.ref-tab').empty()
+      //console.log(data);
+      if(data['status'] == 'success') {
+        if(data.data) {
+            let p = data.data;
+            for(let i in p) {
+                let temp = `<tr>
+                <td>${p[i].name}</td>
+                <td>${p[i].job_title}</td>
+                <td>${p[i].email}</td>
+                <td>${p[i].phone_number}</td>
+                <td>
+                    <a class="w-large edit-ref"><i class="fa fa-edit w-text-blue"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a class="w-large del-ref"><i class="fa fa-trash w-text-red"></i></a>
+                </td>
+                </tr>`;
+              $('.ref-tab').append(temp)
+            }
+        }
+        else {
+            let temp = `<tr>
+                <td colspan="5">No reference added</td>
+                </tr>`;
+              $('.ref-tab').append(temp)
+        }
+      }
+      else if(data['status'] == 'error') {
+        
+      }
+    })
+    .catch(err => {console.log(err)})
+}
 
 getSkills();
 getInterests();
 getEducation();
 getExperience();
+getReference();
 
 function addSkill() {
     let url = `${base_url}skills/add_skill/`;
@@ -310,5 +348,48 @@ function addExperience() {
     .catch(err => {
         console.log(err);
         $('.add-exp-btn').html('Submit').attr('disabled', false);
+    })
+}
+function addReference() {
+    let url = `${base_url}reference/add_reference/`;
+    let comp = $('#ref-comp').val()
+    let name = $('#ref-name').val()
+    let title = $('#ref-title').val()
+    let email = $('#ref-email').val()
+    let phone = $('#ref-phone').val()
+
+    const formData = new FormData()
+    formData.append('company', comp)
+    formData.append('job_title', title)
+    formData.append('name', name)
+    formData.append('phone', phone)
+    formData.append('email', email)
+    formData.append('api_token', localStorage.api_key)
+    $('.add-ref-btn').html('Submitting...').attr('disabled', true);
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        console.log(data);
+        if(data['status'] == 'success') {
+            $('.add-ref-btn').html('Submit').attr('disabled', false);
+            swal('Success', data['message'], 'success');
+            $('#add-ref-form')[0].reset();
+            getReference()
+        }
+        else if(data['status'] == 'error') {
+            $('.add-ref-btn').html('Submit').attr('disabled', false);
+            swal('Error', data['message'], 'error');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        $('.add-ref-btn').html('Submit').attr('disabled', false);
     })
 }

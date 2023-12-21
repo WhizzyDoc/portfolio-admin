@@ -142,7 +142,7 @@ for (i = 0; i < acc.length; i++) {
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 w-padding">
               <div class="form-group">
                 <label for="dob">Date Of Birth:</label>
-                <input type="date" class="form-control" id="dob">
+                <input type="date" class="form-control" id="dob" value="1999-01-01">
               </div>
               <div class="form-group">
                 <label for="github">Github Profile Link:</label>
@@ -337,6 +337,48 @@ for (i = 0; i < acc.length; i++) {
       </div>
     </div>
 
+    <!-- Add Reference Modal -->
+    <div class="modal fade" id="addRefModal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="add-ref-form">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Reference</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Full Name:</label>
+              <input type="text" class="form-control" id="ref-name" required>
+            </div>
+            <div class="form-group">
+              <label for="">Job Title:</label>
+              <input type="text" class="form-control" id="ref-title" required>
+            </div>
+            <div class="form-group">
+              <label for="">Company Name:</label>
+              <input type="text" class="form-control" id="ref-comp" value="">
+            </div>
+            <div class="form-group">
+              <label for="">Email:</label>
+              <input type="email" class="form-control" id="ref-email" required>
+            </div>
+            <div class="form-group">
+              <label for="">Phone Number:</label>
+              <input type="tel" class="form-control" id="ref-phone" required>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success add-ref-btn">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
     <?use-template: "sidenav"?>
         <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
         <main class="">
@@ -463,6 +505,38 @@ for (i = 0; i < acc.length; i++) {
                 </table>
               </div>
 
+              <!-- Reference Tables -->
+              <div class="table-responsive">
+                <table class="ref-table table">
+                  <thead style="background:#fff">
+                    <tr>
+                      <th colspan="3" class="w-bold-x">Reference</th>
+                      <th colspan="2"><a href="" data-toggle="modal" data-target="#addRefModal">Add Reference</a></th>
+                    </tr>
+                  </thead>
+                  <thead>
+                    <tr>
+                      <th style="min-width:200px;">Names</th>
+                      <th>Job Title</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="ref-tab">
+                    <tr>
+                      <td colspan="5" class="w-center">
+                      <div class="loader">
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                          <div class="ball w-black"></div>
+                      </div>
+                      </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
           </div>
         </main>
         <script src="./static/js/skill.js"></script>
@@ -484,6 +558,10 @@ for (i = 0; i < acc.length; i++) {
       $('#add-exp-form').submit(function(e) {
         e.preventDefault();
         addExperience();
+      })
+      $('#add-ref-form').submit(function(e) {
+        e.preventDefault();
+        addReference();
       })
     </script>
   </template>
