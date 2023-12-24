@@ -124,3 +124,35 @@ function logout() {
     })
 }
 
+function forgotPassword() {
+    $('.forgot-btn').html('Resetting...').attr('disabled', true)
+    let url = `${base_url}author/forgot_password/`
+    let email = $('#forg-email').val();
+    const formData = new FormData();
+    formData.append('email', email);
+
+    fetch(url, {
+        method:'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        //console.log(data);
+        if(data['status'] == 'success') {
+            swal("Success", data['message'], 'success')
+            location.href = '/'
+        }
+        else if(data['status'] == 'error') {
+            swal('Error', data['message'], "error")
+        }
+        $('.forgot-btn').html('Reset Password').attr('disabled', false)
+    })
+    .catch(err => {
+        console.log(err);
+        $('.forgot-btn').html('Reset Password').attr('disabled', false);
+    })
+}
+

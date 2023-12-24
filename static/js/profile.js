@@ -14,6 +14,7 @@ function getProfile() {
             $('#address').val(p.address)
             $('#dob').val(p.dob)
             $('#work').val(p.work_description)
+            $('#intro').val(p.intro)
             $('#github').val(p.github)
             $('#linkedin').val(p.linkedin)
             $('#twitter').val(p.twitter)
@@ -53,6 +54,7 @@ function saveProfile() {
     let address = $('#address').val()
     let dob = $('#dob').val()
     let work = $('#work').val()
+    let intro = $('#intro').val()
     let github = $('#github').val()
     let facebook = $('#facebook').val()
     let linkedin = $('#linkedin').val()
@@ -74,6 +76,7 @@ function saveProfile() {
     formData.append('address', address)
     formData.append('dob', dob)
     formData.append('work', work)
+    formData.append('intro', intro)
     formData.append('github', github)
     formData.append('facebook', facebook)
     formData.append('instagram', insta)
@@ -113,6 +116,7 @@ function saveProfile() {
         $('.comp-btn').html('Save Profile').attr('disabled', false)
     })
 }
+
 
 function copyText(message) {
     const textArea = document.createElement('textarea');

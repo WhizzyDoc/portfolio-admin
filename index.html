@@ -43,7 +43,7 @@
                             <input type="checkbox" id="remember">
                             <p>Remember me</p>
                           </label>
-                          <a href="#admin_forgot_password">Forgot password?</a>
+                          <a href="#forgot_password">Forgot password?</a>
                         </div>
                         <button type="submit" class="login-btn">Log In</button>
                         <div class="register">
@@ -70,6 +70,33 @@
         $('.admin-login-form').submit(function(e) {
             e.preventDefault();
             authenticate();
+        })
+  
+    </script>
+  </template>
+
+  <!-- forgot password -->
+  <template id="forgot_password">
+    <div class="row">
+        <div class="login-form col-12 col-sm-12 col-md-6 col-lg-5 col-xl-5">   
+          <div class="wrapper">
+                      <form class="forgot-password-form" action="#">
+                        <h2>Forgot Password</h2>
+                          <div class="input-field">
+                          <input type="text" id="forg-email" required>
+                          <label>Enter Your Email</label>
+                        </div>
+                        <button type="submit" class="forgot-btn">Reset Password</button>
+                      </form>
+          </div>
+            
+        </div>
+    </div>
+    <script>
+        
+        $('.forgot-password-form').submit(function(e) {
+            e.preventDefault();
+            forgotPassword();
         })
   
     </script>
@@ -150,6 +177,9 @@
   </template>
   <template route="/register">
     <?use-template: "register"?>
+  </template>
+  <template route="/forgot_password">
+    <?use-template: "forgot_password"?>
   </template>
     <script>
         var on = XJSX.event.on,

@@ -330,7 +330,7 @@ function getProjectComments(id) {
     fetch(url)
     .then(res => {return res.json()})
     .then(data => {
-      console.log(data);
+      //console.log(data);
       $('.comm-list').empty()
       if(data['status'] == 'success') {
         let pages = data.total_pages
@@ -368,12 +368,20 @@ function getProjectComments(id) {
             let e = data.data;
             for(var i in e) {
                 date = new Date(e[i].date).toLocaleDateString();
-                
+                let reply = ''
+                if(e[i].reply === undefined || (e[i].reply).trim() === '') {
+                    reply = `<a href="#" data-toggle="modal" data-target="#replyCommentModal" class="com-rep-link" data-id="${e[i].id}"><i class="fa fa-reply"></i> Reply</a>&nbsp;&nbsp;&nbsp;&nbsp;`
+                }
+                else {
+                    reply = `<a href="#" data-toggle="modal" data-target="#replyCommentModal" class="com-rep-edit" data-id="${e[i].id}">
+                    <i class="fa fa-reply"></i> Edit Reply<span class="d-rep w-hide">${e[i].reply}</span>
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;`
+                }
                 let temp = `<tr>
                 <td>
                 <div class="w-bold-xx w-text-indigo">${e[i].name}</div>
                 <p>
-                    <a href="#" class="com-rep-link" data-id="${e[i].id}"><i class="fa fa-reply"></i> Reply</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    ${reply}
                     <a href="#" class="com-del-link" data-id="${e[i].id}"><i class="fa fa-trash"></i> Delete</a>
                 </p>
                 </td>
@@ -389,15 +397,26 @@ function getProjectComments(id) {
                 $(`#star-no${cid}`).append(`<i class="fa fa-star w-text-yellow"></i>`);
             }
             }
-            $('.com-rep-link').click(function(e) {
-                e.preventDefault();
+            $('.com-rep-link').click(function() {
                 let id = $(this).data('id');
-                //$('.emp_det_con').addClass('active')
+                $('#comment_id').val(id)
+                $('#reply').val('')
             })
-            $('.com-act-link').click(function(e) {
+            $('.com-rep-edit').click(function() {
+                let id = $(this).data('id');
+                let rep = $(this).children('.d-rep').text();
+                //console.log(rep)
+                $('#comment_id').val(id)
+                $('#reply').val(rep)
+            })
+            $('.com-del-link').click(function(e) {
                 e.preventDefault();
                 let id = $(this).data('id');
-                //$('.emp_rep_con').addClass('active')
+                $('.msg-go-btn').data('id', id)
+                $('.msg-go-btn').data('name', 'comment')
+                $('.message-content').html(`Are you sure you want to delete this comment?<br>This action is permanent`)
+                //console.log('done')
+                $('.message-con').addClass('active') 
             })
         }
         else {
@@ -506,6 +525,65 @@ function deleteProject(id) {
     .catch(err => {
         console.log(err);
         $('.emp-del-btn').html(`<i class="fa fa-trash"></i> Delete Project`).attr('disabled', false)
+    })
+}
+function deleteComment(id) {
+    let url = `${base_url}comments/delete_comment/`;
+    const formData = new FormData();
+    formData.append('api_token', localStorage.api_key);
+    formData.append('comment_id', id);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        //console.log(data);
+        if(data['status'] == 'success') {
+            swal("Success", data.message, 'success')
+            let p_id = $('#com_id').val()
+            getProjectComments(p_id)
+        }
+        else if(data['status'] == 'error') {
+            swal("Error", data.message, 'error')
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+function replyComment(id) {
+    let url = `${base_url}comments/reply_comment/`;
+    const formData = new FormData();
+    formData.append('api_token', localStorage.api_key);
+    formData.append('comment_id', id);
+    formData.append('reply', $('#reply').val());
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        //console.log(data);
+        if(data['status'] == 'success') {
+            swal("Success", data.message, 'success')
+            $('#rep-comment-form')[0].reset()
+            let p_id = $('#com_id').val()
+            getProjectComments(p_id)
+        }
+        else if(data['status'] == 'error') {
+            swal("Error", data.message, 'error')
+        }
+    })
+    .catch(err => {
+        console.log(err);
     })
 }
 

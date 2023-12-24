@@ -818,3 +818,26 @@ text-align: justify;
     page-break-after: always;
   }
 }
+
+.code-header {
+  background: #222;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  padding: 5px 10px;
+}
+.lang-sel, .res-sel {
+  border: none;
+  background: none;
+  color: #fff;
+  outline: none;
+}
+.lang-sel option, .res-sel option {
+  background: #222;
+  color: #fff;
+}
+.ajax, .fetch, .success-2, .error, .error-2, .error-3 {
+  display: none;
+}

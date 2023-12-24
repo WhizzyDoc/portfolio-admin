@@ -17,7 +17,7 @@
         <li><a href="#skills" class="skill-act"><i class="fa fa-briefcase"></i> Skills</a></li>
         <li><a href="" class="resume-act"><i class="fa fa-file-o"></i> Resume</a></li>
       </ul>
-      <a href="#projects" class="emp-act"><i class="fa fa-code"></i> Projects</a>
+      <a href="#projects" class="emp-act"><i class="fa fa-laptop"></i> Projects</a>
       <a href="#messages" class="mess-act"><i class="fa fa-envelope"></i> Messages</a>
       <a href="#notifications" class="note-act"><i class="fa fa-bell"></i> Notifications</a>
       <a href="#users" class="users-act"><i class="fa fa-users"></i> Users</a>
@@ -26,6 +26,7 @@
         <li><a href="#change_password" class="pass-act"><i class="fa fa-key"></i> Password</a></li>
         <li><a href="#account_settings" class="acc-act"><i class="fa fa-lock"></i> Account Settings</a></li>
       </ul>
+      <a href="#api_documentation" class="api-act"><i class="fa fa-code"></i> API Docs</a>
       <a href="#" class="w-text-red logout-btn"><i class="fa fa-power-off"></i> Logout</a>
     </div>
     <script src="./static/js/login.js"></script>
@@ -174,6 +175,10 @@ for (i = 0; i < acc.length; i++) {
               <textarea id="about-me" class="html-text form-control" rows="4"></textarea>
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 w-padding">
+              <label for="intro">Introduction:</label>
+              <textarea id="intro" class="html-text form-control" rows="4"></textarea>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 w-padding">
               <button type="submit" class="btn btn-block form-btn comp-btn">Save Profile</button>
             </div>
           </form>
@@ -195,6 +200,15 @@ for (i = 0; i < acc.length; i++) {
 
   <!-- for skills -->
   <template id="skills">
+    <div class="message-con">
+      <div class="message-box">
+        <h4 class="message-content"></h4>
+        <div class="message-btns">
+          <button class="msg-back-btn w-padding btn btn-danger">No, Go Back</button>
+          <button class="msg-go-btn btn w-padding btn-success" data-id="" data-name="">Yes, Proceed</button>
+        </div>
+      </div>
+    </div>
     <!-- Add Skill Modal -->
     <div class="modal fade" id="addSkillModal">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -213,6 +227,10 @@ for (i = 0; i < acc.length; i++) {
             <div class="form-group">
               <label for="skill-des">Description:</label>
               <textarea class="form-control" rows="5" id="skill-des" required></textarea>
+            </div>
+            <div class="custom-file">
+              <input type="file" accept="image\*" class="custom-file-input skill-image">
+              <label class="custom-file-label" for="skill-image">Choose Image</label>
             </div>
           </div>
           <!-- Modal footer -->
@@ -563,6 +581,38 @@ for (i = 0; i < acc.length; i++) {
         e.preventDefault();
         addReference();
       })
+      
+        $('.msg-go-btn').click(function() {
+              let id = $(this).data('id')
+              let name = $(this).data('name')
+              //console.log(id)
+              $('.message-con').removeClass('active')
+              switch(name) {
+                case "skill":
+                  deleteSkill(id);
+                  break;
+                case "interest":
+                  deleteInterest(id);
+                  break;
+                case "education":
+                  deleteEducation(id);
+                  break;
+                case "experience":
+                  deleteExperience(id);
+                  break;
+                case "reference":
+                  deleteReference(id);
+                  break;
+              }
+              
+          })
+          $('.msg-back-btn').click(function() {
+              $('.message-con').removeClass('active')
+          })
+      $(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+})
     </script>
   </template>
 
@@ -656,15 +706,43 @@ for (i = 0; i < acc.length; i++) {
 
   <!-- Employees Page -->
   <template id="projects">
+    <!-- reply comment Modal -->
+    <div class="modal fade" id="replyCommentModal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="rep-comment-form">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Reply Comment</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Reply:</label>
+              <textarea rows="4" class="form-control" id="reply" required></textarea>
+            </div>
+            <input type="hidden" value="" id="comment_id" />
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success rep-comment-btn">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
     <div class="message-con">
       <div class="message-box">
         <h4 class="message-content"></h4>
         <div class="message-btns">
           <button class="msg-back-btn w-padding btn btn-danger">No, Go Back</button>
-          <button class="msg-go-btn btn w-padding btn-success" data-id="">Yes, Proceed</button>
+          <button class="msg-go-btn btn w-padding btn-success" data-id="" data-name="">Yes, Proceed</button>
         </div>
       </div>
     </div>
+
     <?use-template: "sidenav"?>
     <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
     <main class="">
@@ -912,7 +990,7 @@ for (i = 0; i < acc.length; i++) {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Comment</th>
-                    <th>Rating</th>
+                    <th style="min-width:150px !important">Rating</th>
                     <th>Date</th>
                   </tr>
                 </thead>
@@ -1033,20 +1111,34 @@ for (i = 0; i < acc.length; i++) {
             e.preventDefault();
             editProject();
         })
+        $('#rep-comment-form').submit(function(e) {
+            e.preventDefault();
+            let id = $('#comment_id').val()
+            replyComment(id);
+        })
         $('.emp-del-btn').click(function(e) {
             e.preventDefault();
             let id = $(this).data('id')
             let title = $(this).data('name')
             $('.msg-go-btn').data('id', id)
+            $('.msg-go-btn').data('name', 'project')
             $('.message-content').html(`Are you sure you want to delete '${title}'?<br>This action is permanent`)
-            console.log('done')
+            //console.log('done')
             $('.message-con').addClass('active')            
         })
         $('.msg-go-btn').click(function() {
               let id = $(this).data('id')
+              let name = $(this).data('name')
               //console.log(id)
               $('.message-con').removeClass('active')
-              deleteProject(id);
+              switch(name) {
+                case "project":
+                  deleteProject(id);
+                  break;
+                case "comment":
+                  deleteComment(id);
+              }
+              
           })
           $('.msg-back-btn').click(function() {
               $('.message-con').removeClass('active')
@@ -1061,16 +1153,113 @@ $(".custom-file-input").on("change", function() {
 
   <!-- for messages -->
   <template id="messages">
+    <!-- reply comment Modal -->
+    <div class="modal fade" id="replyMessageModal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="rep-message-form">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Reply Message</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Reply:</label>
+              <textarea rows="4" class="form-control" id="mess-reply" required></textarea>
+            </div>
+            <input type="hidden" value="" id="message_id" />
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success rep-message-btn">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="message-con">
+      <div class="message-box">
+        <h4 class="message-content"></h4>
+        <div class="message-btns">
+          <button class="msg-back-btn w-padding btn btn-danger">No, Go Back</button>
+          <button class="msg-go-btn btn w-padding btn-success" data-id="">Yes, Proceed</button>
+        </div>
+      </div>
+    </div>
     <?use-template: "sidenav"?>
         <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
         <main class="">
           <?use-template: "header"?>
           <h2 class="w-bold-x w-center">Messages</h2>
-          
+          <!-- Tables -->
+          <div class="table-responsive">
+            <table class="emp-table table">
+              <thead style="background:#fff">
+                <tr>
+                  <th colspan="6">
+                    <form class="w-flex w-flex-between w-align-center">
+                    <div class="input-group" style="margin:0">
+                      <input type="text" class="form-control" placeholder="Search Messages" id="mess_search" value="" />
+                      <div class="input-group-append">
+                        <span class="input-group-text" style="background:none;"><i class="fa fa-search"></i></span>
+                      </div>
+                    </div>
+                    <input type="hidden" id="mess_page" value="1" />
+                    </form>
+                  </th>
+                </tr>
+              </thead>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th style="min-width:250px !important">Message</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody class="mess-list">
+                <tr>
+                  <td colspan="4" class="w-center">
+                  <div class="loader">
+                      <div class="ball w-black"></div>
+                      <div class="ball w-black"></div>
+                      <div class="ball w-black"></div>
+                  </div>
+                  </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="com_page_nos mt-3">
+            <a href="#" class="com_page_no"><i class="fa fa-angle-left"></i></a>
+    
+            <a href="#" class="com_page_no"><i class="fa fa-angle-right"></i></a>
+          </div>
         </main>
-        <script src=""></script>
+        <script src="./static/js/message.js"></script>
     <script>
       $('.mess-act').addClass('active');
+      $('#mess_search').on('input', function() {
+        $('#mess_page').val(1);
+        getMessages();
+      })
+      $('.msg-go-btn').click(function() {
+        let id = $(this).data('id')
+        //console.log(id)
+        $('.message-con').removeClass('active')
+        deleteMessage(id);
+      })
+      $('.msg-back-btn').click(function() {
+              $('.message-con').removeClass('active')
+          })
+      $('#rep-message-form').submit(function(e) {
+            e.preventDefault();
+            let id = $('#message_id').val()
+            replyMessage(id);
+        })
     </script>
   </template>
 
@@ -1086,6 +1275,36 @@ $(".custom-file-input").on("change", function() {
         <script src=""></script>
     <script>
       $('.note-act').addClass('active');
+    </script>
+  </template>
+
+  <!-- for API documentation -->
+  <template id="api_documentation">
+    <?use-template: "sidenav"?>
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+        <main class="">
+          <?use-template: "header"?>
+          <h2 class="w-bold-x w-center">API Documentation</h2>
+          <div class="api-main w-padding-top">
+            <div class="loader">
+              <div class="ball w-black"></div>
+              <div class="ball w-black"></div>
+              <div class="ball w-black"></div>
+          </div>
+          </div>
+        </main>
+    <script src="./static/lib/codemirror.js"></script>
+    <script src="./static/lib/codemirror_jsx.js"></script>
+    <script src="./static/js/api.js"></script>
+    <script src="./static/js/editor_2.js"></script>
+    <script src="./static/lib/prism.js"></script>
+    <script src="./static/lib/prism1.js"></script>
+    <script src="./static/lib/prism2.js"></script>
+    <script>
+      $('.api-act').addClass('active');
+    
+
+    
     </script>
   </template>
 
@@ -1111,12 +1330,47 @@ $(".custom-file-input").on("change", function() {
         <main class="">
           <?use-template: "header"?>
           <h2 class="w-bold-x w-center">Change Password</h2>
-          
+          <form class="row comp-form" id="change-pass-form">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 w-padding">
+              <label for="">Old Password:</label>
+              <div class="input-group mb-3">
+                <input type="password" id="old_pass" class="form-control" required>
+                <div class="input-group-append">
+                  <span class="input-group-text w-black show-pass"><i class="fa fa-eye"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 w-padding">
+              <label for="">New Password:</label>
+              <div class="input-group mb-3">
+                <input type="password" id="new_pass" class="form-control" required>
+                <div class="input-group-append">
+                  <span class="input-group-text w-black show-pass"><i class="fa fa-eye"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 w-padding">
+              <button type="submit" class="btn btn-block form-btn pass-btn">Change Password</button>
+            </div>
+          </form>
         </main>
-        <script src=""></script>
+        <script src="./static/js/settings.js"></script>
     <script>
       $('.set-act').addClass('active');
       $('.pass-act').addClass('active');
+      $('.show-pass').click(function() {
+        let inp = $(this).parent('div').siblings('input')
+        if(inp.attr('type') == 'password') {
+          inp.attr('type', 'text')
+        }
+        else {
+          inp.attr('type', 'password')
+        }
+      })
+      $('#change-pass-form').submit(function(e) {
+        e.preventDefault();
+        changePassword();
+      })
     </script>
   </template>
 
@@ -1161,6 +1415,9 @@ $(".custom-file-input").on("change", function() {
 <template route="/notifications">
   <?use-template: "notifications"?>
 </template>
+<template route="/api_documentation">
+  <?use-template: "api_documentation"?>
+</template>
 <template route="/users">
   <?use-template: "users"?>
 </template>
@@ -1192,6 +1449,11 @@ $(".custom-file-input").on("change", function() {
 <script src="./static/js/bootstrap.min.js"></script>
 <script src="./static/js/sweetalert.min.js"></script>
 <script src="./dist/semantic.min.js"></script>
+<link rel="stylesheet" href="./static/lib/prism.css" />
+<link rel="stylesheet" href="./static/lib/prism2.css" />
+<link rel="stylesheet" href="./static/lib/codemirror.css">
+
+<link rel="stylesheet" href="./static/css/editor_2.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="https://cdn.tiny.cloud/1/ntpm8wccvu79outibfbyckg133geerx3v63a16nsz2c2bmsv/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>                                                                                         

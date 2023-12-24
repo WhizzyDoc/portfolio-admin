@@ -14,11 +14,21 @@ function getSkills() {
                 <td>${p[i].description}</td>
                 <td>
                     <a class="w-large edit-skill"><i class="fa fa-edit w-text-blue"></i></a>&nbsp;&nbsp;&nbsp;
-                    <a class="w-large del-skill"><i class="fa fa-trash w-text-red"></i></a>
+                    <a class="w-large del-skill" data-id="${p[i].id}" data-name="skill"><i class="fa fa-trash w-text-red"></i></a>
                 </td>
                 </tr>`;
               $('.skill-tab').append(temp)
             }
+            $('.del-skill').click(function(e) {
+                e.preventDefault();
+                let id = $(this).data('id')
+                let title = $(this).data('name')
+                $('.msg-go-btn').data('id', id)
+                $('.msg-go-btn').data('name', title)
+                $('.message-content').html(`Are you sure you want to delete this '${title}'?<br>This action is permanent`)
+                //console.log('done')
+                $('.message-con').addClass('active')            
+            })
         }
         else {
             let temp = `<tr>
@@ -49,11 +59,21 @@ function getInterests() {
                 <td>${p[i].title}</td>
                 <td>
                     <a class="w-large edit-int"><i class="fa fa-edit w-text-blue"></i></a>&nbsp;&nbsp;&nbsp;
-                    <a class="w-large del-int"><i class="fa fa-trash w-text-red"></i></a>
+                    <a class="w-large del-int" data-id="${p[i].id}"><i class="fa fa-trash w-text-red"></i></a>
                 </td>
                 </tr>`;
               $('.interest-tab').append(temp)
             }
+            $('.del-int').click(function(e) {
+                e.preventDefault();
+                let id = $(this).data('id')
+                let title = "interest"
+                $('.msg-go-btn').data('id', id)
+                $('.msg-go-btn').data('name', title)
+                $('.message-content').html(`Are you sure you want to delete this '${title}'?<br>This action is permanent`)
+                //console.log('done')
+                $('.message-con').addClass('active')            
+            })
         }
         else {
             let temp = `<tr>
@@ -88,11 +108,21 @@ function getEducation() {
                 <td>${start} - ${end}</td>
                 <td>
                     <a class="w-large edit-edu"><i class="fa fa-edit w-text-blue"></i></a>&nbsp;&nbsp;&nbsp;
-                    <a class="w-large del-edu"><i class="fa fa-trash w-text-red"></i></a>
+                    <a class="w-large del-edu" data-id="${p[i].id}"><i class="fa fa-trash w-text-red"></i></a>
                 </td>
                 </tr>`;
               $('.edu-tab').append(temp)
             }
+            $('.del-edu').click(function(e) {
+                e.preventDefault();
+                let id = $(this).data('id')
+                let title = "education"
+                $('.msg-go-btn').data('id', id)
+                $('.msg-go-btn').data('name', title)
+                $('.message-content').html(`Are you sure you want to delete this '${title}'?<br>This action is permanent`)
+                //console.log('done')
+                $('.message-con').addClass('active')            
+            })
         }
         else {
             let temp = `<tr>
@@ -127,11 +157,21 @@ function getExperience() {
                 <td>${start} - ${end}</td>
                 <td>
                     <a class="w-large edit-exp"><i class="fa fa-edit w-text-blue"></i></a>&nbsp;&nbsp;&nbsp;
-                    <a class="w-large del-exp"><i class="fa fa-trash w-text-red"></i></a>
+                    <a class="w-large del-exp" data-id="${p[i].id}"><i class="fa fa-trash w-text-red"></i></a>
                 </td>
                 </tr>`;
               $('.exp-tab').append(temp)
             }
+            $('.del-exp').click(function(e) {
+                e.preventDefault();
+                let id = $(this).data('id')
+                let title = "experience"
+                $('.msg-go-btn').data('id', id)
+                $('.msg-go-btn').data('name', title)
+                $('.message-content').html(`Are you sure you want to delete this '${title}'?<br>This action is permanent`)
+                //console.log('done')
+                $('.message-con').addClass('active')            
+            })
         }
         else {
             let temp = `<tr>
@@ -164,11 +204,21 @@ function getReference() {
                 <td>${p[i].phone_number}</td>
                 <td>
                     <a class="w-large edit-ref"><i class="fa fa-edit w-text-blue"></i></a>&nbsp;&nbsp;&nbsp;
-                    <a class="w-large del-ref"><i class="fa fa-trash w-text-red"></i></a>
+                    <a class="w-large del-ref" data-id="${p[i].id}"><i class="fa fa-trash w-text-red"></i></a>
                 </td>
                 </tr>`;
               $('.ref-tab').append(temp)
             }
+            $('.del-ref').click(function(e) {
+                e.preventDefault();
+                let id = $(this).data('id')
+                let title = "reference"
+                $('.msg-go-btn').data('id', id)
+                $('.msg-go-btn').data('name', title)
+                $('.message-content').html(`Are you sure you want to delete this '${title}'?<br>This action is permanent`)
+                //console.log('done')
+                $('.message-con').addClass('active')            
+            })
         }
         else {
             let temp = `<tr>
@@ -194,10 +244,12 @@ function addSkill() {
     let url = `${base_url}skills/add_skill/`;
     let title = $('#skill-title').val()
     let des = $('#skill-des').val()
+    let image = $('.skill-image')[0].files[0]
 
     const formData = new FormData()
     formData.append('title', title)
     formData.append('description', des)
+    formData.append('image', image)
     formData.append('api_token', localStorage.api_key)
     $('.add-skill-btn').html('Submitting...').attr('disabled', true);
     
@@ -391,5 +443,141 @@ function addReference() {
     .catch(err => {
         console.log(err);
         $('.add-ref-btn').html('Submit').attr('disabled', false);
+    })
+}
+
+function deleteSkill(id) {
+    let url = `${base_url}skills/delete_skill/`;
+    const formData = new FormData();
+    formData.append('api_token', localStorage.api_key);
+    formData.append('skill_id', id);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        //console.log(data);
+        if(data['status'] == 'success') {
+            swal("Success", data.message, 'success')
+            getSkills()
+        }
+        else if(data['status'] == 'error') {
+            swal("Error", data.message, 'error')
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+function deleteInterest(id) {
+    let url = `${base_url}interests/delete_interest/`;
+    const formData = new FormData();
+    formData.append('api_token', localStorage.api_key);
+    formData.append('interest_id', id);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        //console.log(data);
+        if(data['status'] == 'success') {
+            swal("Success", data.message, 'success')
+            getInterests()
+        }
+        else if(data['status'] == 'error') {
+            swal("Error", data.message, 'error')
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+function deleteEducation(id) {
+    let url = `${base_url}education/delete_education/`;
+    const formData = new FormData();
+    formData.append('api_token', localStorage.api_key);
+    formData.append('education_id', id);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        //console.log(data);
+        if(data['status'] == 'success') {
+            swal("Success", data.message, 'success')
+            getEducation();
+        }
+        else if(data['status'] == 'error') {
+            swal("Error", data.message, 'error')
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+function deleteExperience(id) {
+    let url = `${base_url}experience/delete_experience/`;
+    const formData = new FormData();
+    formData.append('api_token', localStorage.api_key);
+    formData.append('experience_id', id);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        //console.log(data);
+        if(data['status'] == 'success') {
+            swal("Success", data.message, 'success')
+            getExperience()
+        }
+        else if(data['status'] == 'error') {
+            swal("Error", data.message, 'error')
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+function deleteReference(id) {
+    let url = `${base_url}reference/delete_reference/`;
+    const formData = new FormData();
+    formData.append('api_token', localStorage.api_key);
+    formData.append('reference_id', id);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {
+        //console.log(data);
+        if(data['status'] == 'success') {
+            swal("Success", data.message, 'success')
+            getReference()
+        }
+        else if(data['status'] == 'error') {
+            swal("Error", data.message, 'error')
+        }
+    })
+    .catch(err => {
+        console.log(err);
     })
 }
