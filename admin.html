@@ -1270,11 +1270,66 @@ $(".custom-file-input").on("change", function() {
         <main class="">
           <?use-template: "header"?>
           <h2 class="w-bold-x w-center">notifications</h2>
-          
+
+          <div class="table-responsive">
+            <table class="emp-table table">
+              <thead style="background:#fff">
+                <tr>
+                  <th colspan="6">
+                    <form class="w-flex w-flex-between w-align-center note-tab-head">
+                    <div class="input-group w-margin-left" style="margin:0">
+                      <input type="text" class="form-control" placeholder="Search Notifications" id="note_search" value="" />
+                      <div class="input-group-append">
+                        <span class="input-group-text" style="background:none;"><i class="fa fa-search"></i></span>
+                      </div>
+                    </div>
+                    <select style="max-width:100px !important" class="custom-select w-block w-margin-left read-filter">
+                      <option value="all" selected>All</option>
+                      <option value="true">Read</option>
+                      <option value="false">Unread</option>
+                    </select>
+                    <input type="hidden" id="note_page" value="1" />
+                    </form>
+                  </th>
+                </tr>
+              </thead>
+              <thead>
+                <tr>
+                  <th style="min-width:250px !important">Notification</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody class="note-list">
+                <tr>
+                  <td colspan="3" class="w-center">
+                  <div class="loader">
+                      <div class="ball w-black"></div>
+                      <div class="ball w-black"></div>
+                      <div class="ball w-black"></div>
+                  </div>
+                  </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="com_page_nos mt-3">
+            <a href="#" class="com_page_no"><i class="fa fa-angle-left"></i></a>
+    
+            <a href="#" class="com_page_no"><i class="fa fa-angle-right"></i></a>
+          </div>
         </main>
-        <script src=""></script>
+        <script src="./static/js/notification.js"></script>
     <script>
       $('.note-act').addClass('active');
+      $('#note_search').on('input', function() {
+        $('#note_page').val(1);
+        getNotifications();
+      })
+      $('.read-filter').on('change', function() {
+        $('#note_page').val(1);
+        getNotifications();
+      })
     </script>
   </template>
 

@@ -183,19 +183,184 @@ var admin = [
     error_response: `
     // error due to
         {
-          "status": "success",
+          "status": "error",
           "message": "Invalid project ID or API Token"
+        }`,
+  },
+  {
+    title: "Get Project Comments",
+    value: "get_project_comments",
+    method: "GET",
+    url: `${base_url2}comments/get_comments/?project_id={id_of_project}&api_token={api_key}`,
+    request: `
+    const url = '${base_url2}comments/get_comments/?project_id={id_of_project}&api_token={api_key}';
+    
+    fetch(url)
+    .then(res => {return res.json()})
+    .then(data => {console.log(data)})
+    .catch(err => {console.log(err)})`,
+    success_response: `
+    {
+      "status": "success",
+      "project": {
+          "id": 1,
+          "title": "Rigan API",
+          "category": {
+              "id": 3,
+              "title": "API"
+          },
+          "database": {
+              "id": 3,
+              "title": "MongoDB"
+          },
+          "frameworks": [
+              {
+                  "id": 1,
+                  "title": "Django"
+              },
+              {
+                  "id": 2,
+                  "title": "Restful API"
+              },
+              {
+                  "id": 8,
+                  "title": "Vanilla JS"
+              }
+          ],
+          "description": "<p>An API Hub</p>",
+          "image": null,
+          "short_description": "A Platform that provides various API integrations",
+          "live_url": "https://riganapi.pythonanywhere.com/",
+          "github_url": "https://github.com/riganapi",
+          "views": 4,
+          "created": "2023-12-18T07:12:47Z"
+      },
+      "data": [
+          {
+              "id": 2,
+              "name": "Jane Doe",
+              "email": "johndoe@gmail.com",
+              "comment": "dsfdgfgfg g dgdfhfdfhdfhdh",
+              "reply": "We dont understand",
+              "star": 4,
+              "active": true,
+              "date": "2023-12-21T20:12:18Z"
+          },
+          {
+              "id": 1,
+              "name": "Peter Parker",
+              "email": "peterparker@gmail.com",
+              "comment": "This is an awesome project, i've used the server functionalities for my portfolio site. kudos",
+              "reply": "Thank you",
+              "star": 5,
+              "active": true,
+              "date": "2023-12-18T07:14:52Z"
+          }
+      ],
+      "message": "comment list retrieved",
+      "page_number": 1,
+      "list_per_page": 10,
+      "total_pages": 1,
+      "total_items": 2,
+      "search_query": ""
+  }`,
+    error_response: `
+    // error due to
+        {
+          "status": "error",
+          "message": "Invalid project ID or API Token"
+        }`,
+  },
+  {
+    title: "Add Comment",
+    value: "add_comment",
+    method: "POST",
+    url: `${base_url2}comments/add_comment/`,
+    request: `
+    const url = '${base_url2}comments/add_comment/';
+    const formData = new FormData();
+    formData.append('api_token', your-api-key)
+    formData.append('project_id', id-of-project-to-be-commented) // integer
+    formData.append('name', 'John')
+    formData.append('email', 'john@gmail.com')
+    formData.append('comment', 'user-comment')
+    formData.append('star', 4) // integer value for project rating (default is 5)
+    
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json'
+      },
+      body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {console.log(data)})
+    .catch(err => {console.log(err)})`,
+    success_response: `
+    {
+      "status": "success",
+      "message": "comment added sucessfully",
+      "data": {
+        "id": 7,
+        "name": "John",
+        "email": "john@gmail.com",
+        "comment": "user-comment",
+        "reply": "",
+        "star": 4,
+        "active": true,
+        "date": "2023-12-21T20:12:18Z"
+      }
+    }`,
+    error_response: `
+    // error due to
+        {
+          "status": "error",
+          "message": "Invalid project ID or API Token"
+        }`,
+  },
+  /* =========================== Messages ========================= */
+  {
+    title: "Send Message",
+    value: "send_message",
+    method: "POST",
+    url: `${base_url2}messages/add_message/`,
+    request: `
+    const url = '${base_url2}messages/add_message/';
+    const formData = new FormData();
+    formData.append('api_token', your-api-key)
+    formData.append('name', 'John')
+    formData.append('email', 'john@gmail.com')
+    formData.append('message', 'user-message')
+    
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json'
+      },
+      body: formData
+    })
+    .then(res => {return res.json()})
+    .then(data => {console.log(data)})
+    .catch(err => {console.log(err)})`,
+    success_response: `
+    {
+      "status": "success",
+      "message": "message sent sucessfully"
+    }`,
+    error_response: `
+    // error due to
+        {
+          "status": "error",
+          "message": "error sending message"
         }`,
   },
   // template
   {
-    title: "",
+    title: "Admin Resume URL",
     value: "",
     method: "",
-    url: `${base_url2}`,
-    request: `
-    const url = "${base_url2}";
-    `,
+    url: `https://riganapi.pythonanywhere.com/resume/{admin_username}/`,
+    request: ``,
     success_response: ``,
     error_response: ``,
   },
@@ -237,6 +402,7 @@ ${x[i].request}
 </code>
 </pre>
 </section>
+
 <section>
 <div class="code-header">
   <div>Response</div>
